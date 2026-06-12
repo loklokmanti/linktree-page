@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Coffeeblackcat</title>
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Admin specific layout styles */
+        .admin-wrapper {
+            width: 100%;
+            display: none; /* Shown after auth */
+            flex-direction: column;
+            gap: 2rem;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        .auth-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 50vh;
+            text-align: center;
+            gap: 1.5rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .auth-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 28px;
+            padding: 3rem 2rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(166, 124, 82, 0.1);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 0.8rem 2rem;
+            font-family: var(--font-main);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(166, 124, 82, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(166, 124, 82, 0.3);
+            background: #8b5a2b;
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background: rgba(166, 124, 82, 0.1);
+            color: var(--accent-color);
+            box-shadow: none;
+        }
+
+        .btn-danger {
+            background: #c94a4a;
+            box-shadow: 0 4px 15px rgba(201, 74, 74, 0.2);
+        }
+
+        .btn-danger:hover {
+            background: #b03939;
+            box-shadow: 0 6px 20px rgba(201, 74, 74, 0.3);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1.2rem;
+            font-size: 0.85rem;
+        }
+
+        /* Admin Action Header */
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 1rem 1.5rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .admin-user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .admin-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-color);
+        }
+
+        .form-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 28px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: none; /* Controlled dynamically */
+            flex-direction: column;
+            gap: 1.25rem;
+            width: 100%;
+            animation: fadeInDown 0.4s ease-out;
+        }
+
+        .form-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 500px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 500px) {
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        input[type="text"],
+        input[type="url"],
+        input[type="file"] {
+            font-family: var(--font-main);
+            padding: 0.8rem 1.2rem;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input[type="text"]:focus,
+        input[type="url"]:focus {
+            border-color: var(--accent-color);
+            background: white;
+            box-shadow: 0 0 10px rgba(166, 124, 82, 0.1);
+        }
+
+        .file-upload-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .image-preview {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: #fff;
+            object-fit: cover;
+            display: none;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Admin Link Cards List */
+        .admin-cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            width: 100%;
+        }
+
+        .admin-card-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .admin-card-item:hover {
+            box-shadow: 0 4px 15px rgba(166, 124, 82, 0.05);
+            border-color: rgba(166, 124, 82, 0.4);
+        }
+
+        .admin-card-details {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+            min-width: 0; /* truncate text safely */
+        }
+
+        .admin-card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            background: #fff;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .admin-card-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .admin-card-text {
+            min-width: 0;
+        }
+
+        .admin-card-text h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.15rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--text-primary);
+        }
+
+        .admin-card-text p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .admin-card-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .action-icon-btn {
+            background: rgba(166, 124, 82, 0.1);
+            border: none;
+            color: var(--text-secondary);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .action-icon-btn:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .action-icon-btn.delete:hover {
+            background: #c94a4a;
+        }
+
+        /* Google button customized */
+        .google-signin-btn {
+            background: white;
+            color: #444;
+            border: 1px solid #ddd;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .google-signin-btn:hover {
+            background: #f7f7f7;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: translateY(-1px);
+        }
+
+        .google-signin-btn img {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Error/Info States */
+        .error-message {
+            background: rgba(201, 74, 74, 0.1);
+            border: 1px solid rgba(201, 74, 74, 0.3);
+            color: #c94a4a;
+            border-radius: 12px;
+            padding: 1rem;
+            font-size: 0.9rem;
+            text-align: center;
+            width: 100%;
+            display: none;
+        }
+
+        .info-message {
+            background: rgba(166, 124, 82, 0.1);
+            border: 1px solid var(--border-color);
+            color: var(--accent-color);
+            border-radius: 12px;
+            padding: 1rem;
+            font-size: 0.9rem;
+            text-align: center;
+            width: 100%;
+        }
+
+        .loader {
+            border: 3px solid rgba(166, 124, 82, 0.1);
+            border-top: 3px solid var(--accent-color);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(249, 246, 243, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            font-size: 1.2rem;
+            font-weight: 500;
+            gap: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-animation"></div>
+    <div id="notification-toast" class="notification-toast"></div>
+
+    <div id="loading-screen" class="loading-overlay">
+        <span class="loader"></span> Loading Admin Dashboard...
+    </div>
+
+    <main class="container">
+        <!-- Auth Screen (Login) -->
+        <div id="auth-screen" class="auth-wrapper" style="display: none;">
+            <div class="auth-card">
+                <header class="profile-section" style="margin-bottom: 2rem;">
+                    <div class="profile-image-container" style="width: 80px; height: 80px; margin-bottom: 1rem;">
+                        <img src="profile_black_cat.png" alt="Profile Picture" class="profile-image">
+                    </div>
+                    <h1 class="profile-name">Admin Access</h1>
+                    <p class="profile-handle" style="margin-bottom: 0;">Sign in to manage your linktree</p>
+                </header>
+
+                <div id="auth-error" class="error-message" style="margin-bottom: 1.5rem;"></div>
+
+                <button id="google-login-btn" class="btn google-signin-btn" style="width: 100%;">
+                    <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/>
+                        <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z" fill="#34A853"/>
+                        <path d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707 0-.59.102-1.167.282-1.707V4.961H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.039l3.007-2.332z" fill="#FBBC05"/>
+                        <path d="M9 3.58c1.32 0 2.508.454 3.44 1.345l2.582-2.58C13.463.896 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.293C4.672 5.166 6.656 3.58 9 3.58z" fill="#EA4335"/>
+                    </svg>
+                    Sign in with Google
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Screen -->
+        <div id="admin-dashboard" class="admin-wrapper">
+            
+            <!-- Dashboard Header -->
+            <header class="admin-header">
+                <div class="admin-user-info">
+                    <img id="user-avatar" src="profile_placeholder.png" alt="Avatar" class="admin-avatar">
+                    <div>
+                        <h2 class="profile-name" id="user-name" style="font-size: 1.05rem;">Admin</h2>
+                        <p id="user-email" style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0;"></p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <a href="index.html" target="_blank" class="btn btn-outline btn-sm">View Site</a>
+                    <button id="logout-btn" class="btn btn-outline btn-sm">Sign Out</button>
+                </div>
+            </header>
+
+            <!-- Access Denied Message (if logged in email is not whitelist admin) -->
+            <div id="access-denied" class="auth-card" style="display: none; max-width: 100%; margin: 0 auto; text-align: center;">
+                <h2 style="color: #c94a4a; margin-bottom: 1rem;">Unauthorized Email</h2>
+                <p style="margin-bottom: 1.5rem;">Your account <strong id="denied-email"></strong> does not have administrator privileges for this page.</p>
+                <button id="login-diff-btn" class="btn">Sign In with a Different Account</button>
+            </div>
+
+            <!-- Dashboard Content (only shown if authenticated & authorized) -->
+            <div id="dashboard-content" style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
+                
+                <div id="setup-banner" class="info-message" style="display: none;">
+                    <strong>Supabase is not configured yet!</strong> Please configure your Supabase URL and Anon Key in `config.js` to enable actual database storage and image uploading.
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2 class="section-title" style="margin-bottom: 0;">Manage Gear Cards</h2>
+                    <button id="new-item-btn" class="btn btn-sm">+ Add New Gear</button>
+                </div>
+
+                <!-- Add/Edit Item Form -->
+                <form id="item-form" class="form-section">
+                    <h2 class="form-title" id="form-header-title">Add New Gear</h2>
+                    <input type="hidden" id="item-id">
+                    <input type="hidden" id="item-position">
+
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="input-title">Product Title</label>
+                            <input type="text" id="input-title" placeholder="e.g. Niche Zero Grinder" required>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label for="input-url">Affiliate / Product URL</label>
+                            <input type="url" id="input-url" placeholder="https://example.com/product" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input-price">Price Display</label>
+                            <input type="text" id="input-price" placeholder="e.g. €449.00 or $40.00 USD">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input-discount">Discount Badge</label>
+                            <input type="text" id="input-discount" placeholder="e.g. 10% discount">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input-code">Promo Code</label>
+                            <input type="text" id="input-code" placeholder="e.g. COFBLA">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input-image">Product Image</label>
+                            <div class="file-upload-wrapper">
+                                <img id="preview-img" src="profile_placeholder.png" alt="Preview" class="image-preview">
+                                <input type="file" id="input-image" accept="image/*">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" id="cancel-form-btn" class="btn btn-outline">Cancel</button>
+                        <button type="submit" id="save-form-btn" class="btn">Save Product</button>
+                    </div>
+                </form>
+
+                <!-- Loading spinner for operations -->
+                <div id="operation-loader" class="info-message" style="display: none; text-align: center;">
+                    <span class="loader" style="margin-right: 0.5rem; vertical-align: middle;"></span> <span id="operation-text">Saving...</span>
+                </div>
+
+                <!-- List of existing items -->
+                <div class="admin-cards-list" id="cards-list">
+                    <!-- Cards will be populated here by JavaScript -->
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 cofbla. All rights reserved.</p>
+    </footer>
+
+    <!-- Supabase and setup files -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="admin.js"></script>
+</body>
+
+</html>
