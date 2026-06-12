@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const operationLoader = document.getElementById('operation-loader');
     const operationText = document.getElementById('operation-text');
     const cardsList = document.getElementById('cards-list');
-    const importDefaultsBtn = document.getElementById('import-defaults-btn');
 
     // Form Inputs
     const inputId = document.getElementById('item-id');
@@ -114,10 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
             adminDashboard.style.display = 'flex';
             accessDenied.style.display = 'none';
             dashboardContent.style.display = 'flex';
-            
-            if (isSupabaseConfigured && importDefaultsBtn) {
-                importDefaultsBtn.style.display = 'inline-block';
-            }
             
             loadingScreen.style.display = 'none';
             loadLinks();
@@ -209,56 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 800);
     }
 
-    // Import Default Gear Links
-    if (importDefaultsBtn) {
-        importDefaultsBtn.addEventListener('click', async () => {
-            if (!confirm("Would you like to import all the original default coffee gear items into your database? This will help restore your original links.")) {
-                return;
-            }
-            
-            setOperationLoading(true, "Importing default gear...");
-            
-            try {
-                if (isSupabaseConfigured) {
-                    for (let i = 0; i < FALLBACK_LINKS.length; i++) {
-                        const item = FALLBACK_LINKS[i];
-                        
-                        // Check if item already exists by title
-                        const { data: existing } = await supabaseClient
-                            .from('links')
-                            .select('id')
-                            .eq('title', item.title)
-                            .limit(1);
-                            
-                        if (existing && existing.length > 0) {
-                            continue; // skip duplicate
-                        }
 
-                        const { error } = await supabaseClient
-                            .from('links')
-                            .insert([{
-                                title: item.title,
-                                url: item.url,
-                                price: item.price,
-                                discount: item.discount,
-                                code: item.code,
-                                image_url: item.image_url,
-                                position: i + 1
-                            }]);
-                            
-                        if (error) throw error;
-                    }
-                    showToast("Successfully imported default gear! ☕");
-                    loadLinks();
-                }
-            } catch (err) {
-                console.error("Failed to import defaults:", err);
-                showToast("Failed to import defaults: " + err.message);
-            } finally {
-                setOperationLoading(false);
-            }
-        });
-    }
 
     // --- Form Handlers ---
     
