@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Whitelisted administrator emails
     // IMPORTANT: Add your Gmail address here!
     const ADMIN_EMAILS = [
-        "post@emresar.com"
+        "post@emresar.com",
+        "lenac.stefan@gmail.com"
     ];
 
     // UI Elements
