@@ -1,0 +1,500 @@
+@font-face{font-family:Cactus;src:url('assets/cactus.woff2')}@font-face{font-family:Satoshi;src:url('assets/satoshi.woff2');font-weight:400;font-display:swap}@font-face{font-family:Satoshi;src:url('assets/satoshi-bold.woff2');font-weight:700;font-display:swap}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:#f4f0ec;color:#24231e;font-family:Satoshi,Arial,sans-serif;--pad:clamp(24px,5vw,88px);--bar:150px}button,a{-webkit-tap-highlight-color:transparent}button{font:inherit;cursor:pointer}a{color:inherit;text-decoration:none}header{height:78px;position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad);background:linear-gradient(#f4f0ec 55%,transparent)}header a{font:18px Cactus;letter-spacing:1px}header span,.eyebrow,.chapter-heading>span{font-size:10px;letter-spacing:2px}h1,h2,.signature,.closing{font-family:Cactus;font-weight:400;margin:0}h1{font-size:clamp(90px,15vw,220px);line-height:.9;text-align:center;position:absolute;top:12%;width:100%;z-index:0;will-change:transform}h2{font-size:clamp(70px,9vw,135px);line-height:.98}p{line-height:1.38;margin:0 0 1.4em}.hero{height:180svh}.hero-stage{height:calc(100svh - var(--bar));min-height:480px;position:sticky;top:40px;overflow:hidden}#pouch{position:absolute;top:19%;left:50%;width:min(650px,95%);height:65%;transform:translateX(-50%);mix-blend-mode:multiply;z-index:2;touch-action:pan-y}#pouch canvas{touch-action:pan-y!important}.hero-caption{position:absolute;bottom:4%;text-align:center;width:100%;z-index:3}.hero-caption p{margin:0 0 8px;font-size:18px}.hero-caption a{font-size:12px}.hero-caption small{display:block;font-size:10px;opacity:.5;margin-top:12px}.story{max-width:1300px;margin:auto;padding:100px var(--pad) 140px;display:grid;grid-template-columns:1fr 1fr;gap:9vw;align-items:start}.cat-stage{position:sticky;top:100px;height:65svh;display:flex;align-items:center;justify-content:center}.cat-stage img{max-height:100%;max-width:100%;object-fit:contain}.story-copy{padding:10vh 0 0;font-size:clamp(25px,3vw,42px);letter-spacing:-.8px}.signature{font-size:25px;display:block;transform:rotate(-5deg);margin-top:70px}.chapter{padding:110px var(--pad);max-width:1440px;margin:auto}.chapter-heading{display:grid;grid-template-columns:1fr 2fr;align-items:start;margin-bottom:70px}.chapter-heading>span{padding-top:16px}.taste{overflow:hidden;border-top:1px solid #c9c5bf}.taste-window{height:200px;overflow:hidden;border-top:1px solid;border-bottom:1px solid;margin:20px 0 60px}.taste-track{height:100%;display:flex;will-change:transform}.taste-track>span{flex:0 0 100%;display:grid;place-content:center;font:80px/.9 Cactus;text-align:center}.lead{font-size:clamp(27px,4vw,50px);max-width:850px}.taste>p:not(.lead){font-size:20px}.brew{display:flex;gap:25px;font-size:11px;letter-spacing:1px;margin-top:50px}.origin-grid{display:grid;grid-template-columns:1fr 1.25fr;gap:8vw}.origin-grid p,.editorial>p{font-size:clamp(20px,2.3vw,30px)}.landscape{position:relative;height:520px;overflow:hidden}.landscape img{width:100%;height:125%;object-fit:cover;will-change:transform}.landscape>span{position:absolute;left:25px;bottom:25px;color:white;font:65px/.9 Cactus}.landscape b{font-weight:400}.transparency{border-top:1px solid #c9c5bf}.editorial{margin-left:33.333%}.timeline{margin:60px 0}.timeline article{display:grid;grid-template-columns:100px 1fr;gap:30px;padding:35px 0;border-top:1px solid #c9c5bf}.timeline strong{font:110px Cactus}.timeline h3{font-size:12px;letter-spacing:1.4px}.timeline p{font-size:20px}.shipping{padding-bottom:calc(var(--bar) + 150px)}.closing{font-size:clamp(45px,6vw,85px);line-height:1.05;margin:100px 0 35px}.shipping a{border-bottom:1px solid;font-size:13px}.preorder{position:fixed;bottom:0;left:0;right:0;z-index:30;background:#fff;border-top:1px solid #24231e;padding:18px var(--pad) 12px;display:grid;grid-template-columns:1fr 1fr;gap:8px 50px}.order-summary{border:0;background:none;display:flex;align-items:center;text-align:left;gap:18px;padding:0}.order-summary img{width:32px;height:45px;object-fit:contain}.order-summary small{display:block;font-size:12px}.price{margin-left:auto;text-align:right}.order-button,dialog>button:last-of-type{background:#080908;color:white;border:0;border-radius:40px;min-height:54px;font-weight:700;padding:15px 25px}.order-button span{float:none}.preorder>small{grid-column:1/-1;text-align:center;font-size:10px}dialog{border:0;border-top:1px solid;border-radius:24px 24px 0 0;padding:35px;max-width:560px;width:100%;max-height:90svh;position:fixed;bottom:0;top:auto;margin:0 auto;overflow:auto;color:inherit;transition:transform .5s cubic-bezier(.2,.7,.2,1);transform:translateY(100%)}dialog[open]{transform:translateY(0)}dialog::backdrop{background:#24231e55;backdrop-filter:blur(5px)}dialog h2{font-size:48px;margin:25px 0}dialog .close{float:right;border:0;background:none}.cart-line{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:15px;padding:18px 0;font-size:14px}.cart-line img{width:35px;height:45px;object-fit:contain}.gift{font-size:36px}.total{display:flex;justify-content:space-between;border-top:1px solid;padding-top:25px;margin-top:15px}dialog p{font-size:13px;margin-top:10px}dialog>button:disabled{width:100%;margin-top:30px;background:#333;color:#aaa;cursor:default}dialog>small{display:block;text-align:center;font-size:11px;margin:15px 0}a:focus-visible,button:focus-visible{outline:2px solid #a66d35;outline-offset:4px}
+@media(max-width:700px){body{--pad:24px;--bar:162px}header{height:70px;justify-content:center}header span{display:none}header a{font-size:15px}.hero{height:155svh}.hero-stage{top:35px;min-height:400px}h1{font-size:clamp(75px,20vw,110px);top:17%}#pouch{top:28%;height:53%;width:115%;max-width:550px}.hero-caption{bottom:3%}.hero-caption p{font-size:16px}.hero-caption small{display:none}.story{display:block;padding:40px var(--pad) 85px}.cat-stage{position:relative;top:0;height:65svh;margin:0 0 45px}.story-copy{font-size:28px;padding:0}.signature{font-size:23px;margin-top:40px}.chapter{padding:70px var(--pad)}.chapter-heading{display:block;margin-bottom:35px}.chapter-heading>span{display:block;margin-bottom:22px;font-size:9px}h2{font-size:74px}.taste-window{height:170px;margin-bottom:35px}.taste-track>span{font-size:62px}.lead{font-size:28px}.brew{gap:18px;font-size:9px}.origin-grid{display:block}.origin-grid p,.editorial>p{font-size:20px}.landscape{height:310px;margin:35px calc(-1 * var(--pad)) 0}.editorial{margin-left:0}.timeline article{grid-template-columns:65px 1fr;gap:20px}.timeline strong{font-size:85px}.timeline p{font-size:18px}.transparency h2{font-size:68px}.shipping{padding-bottom:calc(var(--bar) + 90px)}.closing{margin:75px 0 30px;font-size:48px}.preorder{padding:13px 24px max(9px,env(safe-area-inset-bottom));grid-template-columns:1fr;gap:10px}.order-summary{gap:15px;font-size:14px}.order-summary img{height:36px;width:32px}.order-summary small{font-size:11px}.order-button{min-height:49px;font-size:15px}.preorder>small{font-size:9px}.hero-caption a{font-size:11px}dialog{padding:25px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero{height:100svh}.hero-stage{position:relative}.taste-track{transform:none!important}.taste-window{height:auto}.taste-track{display:block}.taste-track>span{padding:25px;font-size:45px}*{transition:none!important}}
+
+body{overflow-x:hidden}.taste{height:190svh;overflow:clip}.taste-inner{position:sticky;top:100px}.hero-stage h1{font-size:clamp(120px,18vw,250px);line-height:.72;top:11%}#pouch{top:22%}@media(max-width:700px){.hero-stage h1{font-size:28vw;line-height:.72;top:15%}#pouch{top:27%;height:56%}.taste{height:180svh}.taste-inner{top:95px}.hero-caption{bottom:2%}}@media(prefers-reduced-motion:reduce){.taste{height:auto}.taste-inner{position:relative;top:auto}}
+
+/* A two-viewport pinned product scene; all product motion is in the camera. */
+.hero{height:240svh}.hero-stage{top:70px;height:calc(100svh - var(--bar) - 70px)}#pouch{mix-blend-mode:normal;background:transparent}#pouch canvas{background:transparent}@media(max-width:700px){.hero{height:220svh}.hero-stage{top:60px;height:calc(100svh - var(--bar) - 60px);min-height:360px}}@media(prefers-reduced-motion:reduce){.hero{height:100svh}.hero-stage{position:relative;top:60px}}
+
+#pouch.touch-scroll,#pouch.touch-scroll canvas{pointer-events:none!important;touch-action:pan-y!important}#pouch.touch-rotate,#pouch.touch-rotate canvas{pointer-events:auto!important;touch-action:none!important}.rotate-toggle{display:block;margin:10px auto 0;padding:7px 13px;border:1px solid #24231e44;border-radius:20px;background:transparent;color:inherit;font-size:11px}.hero-stage:has(.touch-rotate) .hero-caption{opacity:1!important}
+
+/* Explicit opt-in overrides the OS reduced-motion layout as well as JavaScript. */
+body.motion-enabled .hero{height:240svh}body.motion-enabled .hero-stage{position:sticky;top:70px;height:calc(100svh - var(--bar) - 70px)}body.motion-enabled .taste{height:190svh}body.motion-enabled .taste-inner{position:sticky;top:100px}body.motion-enabled .taste-track{transform:translateX(var(--taste-offset,0%))!important;display:flex}body.motion-enabled .taste-window{height:200px}@media(max-width:700px){body.motion-enabled .hero{height:220svh}body.motion-enabled .hero-stage{top:60px;height:calc(100svh - var(--bar) - 60px)}body.motion-enabled .taste{height:180svh}body.motion-enabled .taste-inner{top:95px}body.motion-enabled .taste-window{height:170px}}
+
+/* The headline leaves with the document; only the product remains pinned. */
+.hero-stage h1{will-change:transform}#pouch{top:14%;height:76%}.hero-caption{transition:none}@media(max-width:700px){#pouch{top:15%;height:75%}}
+
+/* Cactus Jack has generous internal vertical metrics; use a compact rhythm. */
+header a{line-height:.7}h1,.hero-stage h1{line-height:.55}h2,.signature,.closing,.timeline strong,.taste-track>span,.landscape>span{line-height:.68}.scroll-story>span{line-height:.65}.scroll-story>span:nth-child(2){margin-top:0}.scroll-story p{margin-top:18px}.closing{line-height:.72}@media(max-width:700px){.hero-stage h1{line-height:.55}.scroll-story>span{line-height:.65}.scroll-story>span:nth-child(2){margin-top:0}.scroll-story p{margin-top:16px;font-size:21px;max-width:280px}.transparency h2{line-height:.68}}
+
+.order-summary{color:#24231e}.scroll-story p{margin-bottom:0}
+
+/* Fixed geometry throughout the pinned sequence: no resize/zoom feedback loop. */
+#pouch{top:5%!important;height:60%!important;width:min(650px,92vw);max-width:100%;left:50%;transform:translateX(-50%);overflow:hidden}.scroll-story{position:absolute;top:63%!important;left:0;right:0;z-index:1;text-align:center;pointer-events:none;transform:translateY(260%);will-change:transform}.scroll-story>span{display:block;font-family:Cactus;font-size:clamp(48px,7vw,95px);font-weight:400;line-height:.65;white-space:nowrap}.scroll-story>span:nth-child(2){margin-top:0}.scroll-story p{max-width:440px;margin:18px auto 0;font-size:clamp(20px,2.3vw,28px);line-height:1.2}.story{position:relative;margin-top:0}.hero-caption{z-index:3}@media(max-width:700px){.scroll-story{padding:0 16px}.scroll-story>span{font-size:14vw}.scroll-story p{max-width:290px;font-size:21px;margin-top:16px}.story{margin-top:0}}
+
+/* The final zoom can reach the viewport edges without changing the opening size. */
+#pouch{width:min(650px,100%);max-width:100%}@media(max-width:700px){#pouch{width:100%}}
+
+header .header-logo{display:block;width:180px;height:auto;max-width:48vw}
+
+/* Full-height canvas keeps the final pouch inside the viewer. */
+#pouch{top:0!important;height:100%!important;width:100%;max-width:100%;overflow:visible}
+
+/* Keep the approved pouch motion; let the message sit below its stage. */
+.hero-stage{overflow:visible}
+.scroll-story{top:calc(100% + 24px)!important;bottom:auto}
+
+/* Story chapters follow normal document flow, below the pinned pouch. */
+.hero-stage{overflow:hidden}
+.scroll-story{position:relative;top:auto!important;bottom:auto;transform:none!important;padding:56px var(--pad) 40px;margin:0 auto;max-width:100%;}
+.story{display:flex;flex-direction:column;align-items:center;gap:0;padding:28px var(--pad) 100px}
+.story-copy{padding:0;max-width:850px}
+.cat-stage{position:relative;top:auto;width:100%;height:auto;margin:64px 0 36px;text-align:center}
+.cat-stage img{display:block;width:min(100%,640px);height:auto;max-height:none}
+.story>.signature{margin:16px 0 0;text-align:center}
+
+/* Lift the opening headline to match the supplied composition. */
+.hero-stage h1{top:3%}@media(max-width:700px){.hero-stage h1{top:4%}}
+
+/* Bring the Guji message closer to the final pouch without changing motion. */
+.scroll-story{margin-top:-40px;padding-top:8px}
+
+.cat-stage .cat-illustration{display:block;width:min(100%,640px);height:auto;overflow:visible}
+
+/* Keep the original pinned taste section; only its contents travel sideways. */
+body.motion-enabled .taste{height:220svh;overflow:visible}
+body.motion-enabled .taste-inner{position:sticky;top:95px}
+.taste-scene{height:auto;margin:0}
+body.motion-enabled .taste-window{position:relative;top:auto;height:240px;margin:20px 0 40px;overflow:hidden}
+.taste-track>span{flex:0 0 100%;padding:20px;font-size:clamp(44px,7vw,96px);line-height:.85}
+.taste-track>span>small{display:block;font-family:Satoshi,Arial,sans-serif;font-size:clamp(18px,2vw,26px);line-height:1.3;font-weight:400;margin-bottom:20px}
+@media(max-width:700px){body.motion-enabled .taste-window{height:220px;margin-bottom:35px}.taste-track>span{font-size:clamp(36px,10vw,62px);padding:12px}}
+
+.taste-track>span,.taste-track>span>small{font-family:Cactus,Arial,sans-serif}
+
+.taste-track>span{font-size:clamp(48px,7.6vw,104px);line-height:.62;padding:12px}
+.taste-track>span>small{font-size:inherit;line-height:inherit;margin-bottom:12px}
+@media(max-width:700px){.taste-track>span{font-size:clamp(40px,11.5vw,68px);line-height:.72}}
+
+body.motion-enabled .taste{position:relative}
+body.motion-enabled .taste-inner{position:absolute;top:0;z-index:2}
+.taste-track>span{display:flex;align-items:center;justify-content:center;white-space:normal;min-width:0;text-align:center;line-height:.8;padding:18px}
+
+/* Tighten the transition after the horizontal sequence. */
+body.motion-enabled .taste{padding-bottom:24px}
+.origin.chapter{padding-top:32px}
+
+.origin-grid{align-items:start;min-width:0}
+.origin-carousel{min-width:0;max-width:100%}
+.origin-rail{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;position:relative}
+.origin-rail::-webkit-scrollbar{display:none}
+.origin-slide{flex:0 0 86%;min-width:0;margin:0;scroll-snap-align:start;overflow:hidden;aspect-ratio:4/5}
+.origin-slide img{display:block;width:100%;height:100%;object-fit:cover}
+.origin-gallery-controls{display:flex;align-items:center;gap:12px;margin-top:16px;font-size:10px;letter-spacing:1px}
+.origin-gallery-controls>span:first-child{margin-right:auto}
+.origin-gallery-controls button{width:38px;height:38px;border:1px solid #24231e66;border-radius:50%;background:transparent;color:inherit;font-size:20px;line-height:1}
+.origin-gallery-controls button:disabled{opacity:.25;cursor:default}
+.origin-rail:focus-visible,.origin-gallery-controls button:focus-visible{outline:2px solid #24231e;outline-offset:4px}
+@media(max-width:700px){.origin-carousel{margin-top:32px}.origin-slide{flex-basis:87%;aspect-ratio:4/5}}
+
+.transparency h2{white-space:nowrap;font-size:clamp(40px,6.5vw,100px)}
+@media(max-width:700px){.transparency h2{font-size:9vw}}
+
+/* One editorial body style, matching the personal story. */
+main{--body-copy-size:clamp(25px,3vw,42px)}
+main .story-copy,main .story-copy p,main .lead,main .origin-grid p,main .editorial p,main .scroll-story p{font-family:Satoshi,Arial,sans-serif;font-size:var(--body-copy-size);line-height:1.38;letter-spacing:-.8px}
+.timeline article{display:flex;flex-direction:column;align-items:flex-start;gap:20px;text-align:left}
+.timeline article>strong{display:block}
+.timeline article>div{width:100%;text-align:left}
+.timeline h3{margin:0 0 18px}
+@media(max-width:700px){main{--body-copy-size:28px}}
+
+.transparency h2{font-size:clamp(70px,9vw,135px);white-space:normal;overflow-wrap:anywhere}
+.site-ending{text-align:center;margin-top:80px}
+main .closing-thanks{font-family:Cactus,Arial,sans-serif;font-size:clamp(48px,7vw,95px);font-weight:400;line-height:1;max-width:950px;margin:0 auto 36px;letter-spacing:0;text-align:center}
+@media(max-width:700px){.transparency h2{font-size:74px}.site-ending{margin-top:64px}}
+
+.order-button .countdown-label{font-size:inherit;font-variant-numeric:tabular-nums;letter-spacing:0}
+
+.order-button{display:flex;align-items:center;justify-content:center;text-align:center;font-weight:600}
+.order-button .countdown-label{float:none;font-weight:600;text-align:center}
+
+/* Section rhythm and closing space. */
+.taste,.transparency{border-top:0}
+.transparency.chapter{padding-bottom:40px}
+.shipping.chapter{padding-top:40px}
+.site-ending{margin-top:150px}
+@media(max-width:700px){.site-ending{margin-top:128px}}
+
+dialog#order{border:1px solid #24231e}
+
+header .header-logo{width:130px;max-width:34vw}
+.scroll-story{padding-bottom:88px}
+.story{padding-top:44px}
+
+/* Shopify's generated checkout button sits inside the existing order sheet. */
+.shopify-buy-slot{width:100%;min-height:54px;margin-top:30px}
+.shopify-buy-slot [data-shopify-buy-ui],.shopify-buy-slot .shopify-buy__layout-vertical{width:100%!important;max-width:none!important}
+.shopify-buy-slot .shopify-buy__btn{width:100%!important;min-height:54px!important}
+.shopify-closed{width:100%;margin-top:30px}
+.shopify-closed[hidden],.shopify-buy-slot[hidden]{display:none!important}
+
+
+.legal-links{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 22px;margin:24px auto 0;font:11px/1.4 Satoshi,Arial,sans-serif}.legal-links a{border-bottom:1px solid #24231e55}.legal-links-sheet{font-size:10px;margin:14px auto 0}.site-ending+.legal-links{max-width:760px}
+
+/* Floating preorder card with breathing room around the CTA. */
+.preorder{left:50%;right:auto;bottom:12px;width:min(720px,calc(100% - 32px));transform:translateX(-50%);padding:14px 18px 18px;gap:8px 18px;border:0;border-radius:58px;box-shadow:0 10px 32px rgba(36,35,30,.15)}
+.order-summary{min-width:0}.price{white-space:nowrap}.price .vat-shipping{font-size:10px;white-space:nowrap;letter-spacing:-.15px}
+@media(max-width:700px){.preorder{width:calc(100% - 24px);bottom:calc(8px + env(safe-area-inset-bottom));padding:11px 14px 14px;grid-template-columns:1fr;gap:8px;border-radius:54px}.order-summary{gap:11px}.order-summary>span:nth-of-type(1){min-width:0}.price .vat-shipping{font-size:9px;letter-spacing:-.3px}.site-ending .closing-thanks{font-size:14vw}}
+
+/* Policy pages stay inside the site in a closable, independently scrollable sheet. */
+dialog#legal-policy{position:fixed;inset:50% auto auto 50%;transform:translate(-50%,-50%);width:min(900px,calc(100vw - 32px));height:min(84svh,920px);max-width:none;max-height:none;margin:0;padding:0;border:0;border-radius:24px;overflow:hidden;background:#fff;color:#24231e;box-shadow:0 24px 90px #17161238}
+dialog#legal-policy[open]{display:flex;flex-direction:column;transform:translate(-50%,-50%)}
+dialog#legal-policy::backdrop{background:#24231e66;backdrop-filter:blur(5px)}
+.legal-policy-header{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:60px;padding:12px 22px;background:#f4f0ec;border-bottom:1px solid #24231e22;font:12px/1.2 Satoshi,Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.legal-policy-close{flex:none;border:0;background:transparent;padding:8px 0 8px 12px;color:inherit;font:12px Satoshi,Arial,sans-serif;cursor:pointer}
+#legal-policy-frame{display:block;flex:1 1 auto;width:100%;height:100%;min-height:0;border:0;background:#fff}
+@media(max-width:700px){dialog#legal-policy{width:calc(100vw - 20px);height:min(88svh,920px);border-radius:20px}.legal-policy-header{min-height:54px;padding:10px 16px}}
+
+/* Product name and price use the bold Satoshi cut in the preorder bar. */
+.order-summary b{font-family:Satoshi,Arial,sans-serif;font-weight:700}
+
+.site-ending .closing-thanks{line-height:.65}
+
+
+/* Footer wordmark and text-only policy popup. */
+.footer-logo{display:block;width:112px;height:auto;margin:72px auto 24px}
+dialog#legal-policy{position:fixed;inset:50% auto auto 50%;transform:translate(-50%,-50%);width:min(760px,calc(100vw - 32px));height:min(84svh,900px);max-width:none;max-height:none;margin:0;padding:0;border:1px solid #24231e;border-radius:24px;overflow:hidden;background:#f4f0ec;color:#24231e;box-shadow:none}
+dialog#legal-policy[open]{display:flex;flex-direction:column;transform:translate(-50%,-50%)}
+.legal-policy-header{flex:none;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:60px;padding:12px 22px;background:#f4f0ec;border-bottom:1px solid #24231e;font:12px/1.2 Satoshi,Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.legal-policy-close{flex:none;border:0;background:transparent;padding:8px 0 8px 12px;color:inherit;font:12px Satoshi,Arial,sans-serif;cursor:pointer}
+.legal-policy-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:24px clamp(20px,5vw,52px) 40px;background:#fff;white-space:pre-wrap;font:15px/1.6 Satoshi,Arial,sans-serif;letter-spacing:0}
+.cart-countdown{margin:12px 0 6px;padding:12px 0;border-top:1px solid #24231e44;border-bottom:1px solid #24231e44;font-size:13px}
+.cart-countdown strong{margin-left:7px;font-family:Satoshi,Arial,sans-serif;font-weight:700;font-variant-numeric:tabular-nums}
+.order-label{font:700 16px Satoshi,Arial,sans-serif}
+.preorder{box-shadow:none!important;border:1px solid #24231e!important;border-radius:calc(27px + 18px)!important}
+@media(max-width:700px){.footer-logo{margin:58px auto 20px}dialog#legal-policy{width:calc(100vw - 20px);height:min(88svh,900px);border-radius:20px}.legal-policy-header{min-height:54px;padding:10px 16px}.legal-policy-scroll{padding:20px 18px 32px}.preorder{border-radius:calc(24.5px + 14px)!important}.cart-countdown{font-size:12px}}
+
+/* Outer radius = half the CTA height plus its inset from the card edge. */
+
+/* Extra top breathing room; keep the current radius and button inset. */
+.preorder{padding-top:20px!important;border-color:rgba(36,35,30,.05)!important}
+@media(max-width:700px){.preorder{padding-top:16px!important}}
+
+/* Product thumbnails use the supplied product photography. */
+.order-summary img{width:44px!important;height:44px!important;object-fit:contain!important}
+.cart-line{grid-template-columns:52px 1fr auto!important;gap:12px!important}
+.cart-line img{width:52px!important;height:58px!important;object-fit:contain!important;border-radius:3px}
+
+/* Ease the preorder sheet upward from the fixed bar. */
+dialog#order{transition:transform .7s cubic-bezier(.22,1,.36,1),opacity .35s ease;will-change:transform,opacity}
+dialog#order[open]{transform:translateY(0);opacity:1}
+@starting-style{dialog#order[open]{transform:translateY(100%);opacity:0}}
+dialog#order::backdrop{background:rgba(36,35,30,0);backdrop-filter:blur(0);transition:background .4s ease,backdrop-filter .4s ease}
+dialog#order[open]::backdrop{background:#24231e55;backdrop-filter:blur(5px)}
+dialog#order .shopify-closed{display:flex;align-items:center;justify-content:center;gap:.55em;min-height:54px;margin-top:22px;padding:15px 20px;border:0;border-radius:40px;background:#080908;color:#fff;opacity:1;font:700 15px Satoshi,Arial,sans-serif;white-space:nowrap}
+.shopify-closed .countdown-label{margin:0;font:700 15px Satoshi,Arial,sans-serif;letter-spacing:0;font-variant-numeric:tabular-nums}
+@media(prefers-reduced-motion:reduce){dialog#order{transition:none;will-change:auto}dialog#order::backdrop{transition:none}}
+
+/* Keep popup close controls in the site palette across pointer and touch states. */
+dialog#order .close,dialog#legal-policy .legal-policy-close{appearance:none;-webkit-appearance:none;color:#24231e!important;-webkit-text-fill-color:#24231e;background:transparent!important;border:0!important;outline:0!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
+dialog#order .close:hover,dialog#order .close:active,dialog#order .close:focus,dialog#order .close:focus-visible,dialog#legal-policy .legal-policy-close:hover,dialog#legal-policy .legal-policy-close:active,dialog#legal-policy .legal-policy-close:focus,dialog#legal-policy .legal-policy-close:focus-visible{color:#24231e!important;-webkit-text-fill-color:#24231e;background:transparent!important;border:0!important;box-shadow:none!important}
+dialog#order .close:focus-visible,dialog#legal-policy .legal-policy-close:focus-visible{outline:0!important;text-decoration:underline;text-decoration-color:rgba(36,35,30,.4);text-underline-offset:4px}
+/* Inset the product and price evenly without changing the CTA margins. */
+.preorder .order-summary{padding-inline:8px!important}
+
+/* Expand the basket from the same floating card footprint as the preorder bar. */
+dialog#order{left:50%;right:auto;bottom:12px;width:min(720px,calc(100% - 32px));max-width:none;max-height:calc(100svh - 24px);height:var(--basket-origin-height,150px);margin:0;transform:translateX(-50%);overflow:hidden;display:block;padding:22px 24px;border:1px solid rgba(36,35,30,.05);border-radius:calc(27px + 18px);background:#fff;color:#24231e;box-shadow:none;transition:height .68s cubic-bezier(.22,1,.36,1)}
+dialog#order[open]{height:var(--basket-origin-height,150px);transform:translateX(-50%)}
+dialog#order[open].is-expanded{height:min(88svh,840px);overflow-y:auto}
+dialog#order[open]>*{opacity:0;pointer-events:none;transition:opacity .2s ease}
+dialog#order[open].is-expanded>*{opacity:1;pointer-events:auto;transition:opacity .24s ease .14s}
+@media(max-width:700px){dialog#order{left:50%;right:auto;bottom:calc(8px + env(safe-area-inset-bottom));width:calc(100% - 24px);max-height:calc(100svh - 16px - env(safe-area-inset-bottom));padding:18px 18px;border-radius:calc(24.5px + 14px)}dialog#order[open].is-expanded{height:min(88svh,900px)}}
+@media(prefers-reduced-motion:reduce){dialog#order{transition:none}dialog#order[open]>*,dialog#order[open].is-expanded>*{transition:none}}
+
+/* Portrait cat photo interlude between the launch story and shipping. */
+.cat-photo-interlude{width:min(650px,calc(100% - 48px));margin:36px auto 96px}
+.cat-photo-interlude img{display:block;width:100%;height:auto;border-radius:2px}
+@media(max-width:700px){.cat-photo-interlude{width:calc(100% - 48px);margin:20px auto 72px}}
+
+/* Keep background content fixed while either modal is open. */
+html.dialog-scroll-locked,body.dialog-scroll-locked{overflow:hidden!important;overscroll-behavior:none}
+/* Tighter basket hierarchy and consistent bold price/free labels. */
+dialog#order h2{margin-top:12px!important;margin-bottom:16px!important}
+dialog#order .cart-line{padding:10px 0!important}
+dialog#order .cart-line>span{font-family:Satoshi,Arial,sans-serif;font-weight:700}
+dialog#order{-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y}
+dialog#legal-policy .legal-policy-scroll{-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y}
+
+/* Tighter cat photo handoff and bottom-left photo credit. */
+.cat-photo-interlude{position:relative;margin:24px auto 56px}
+.cat-photo-interlude figcaption{position:absolute;left:16px;bottom:14px;color:#f4f0ec;font:400 10px/1.2 Satoshi,Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;text-shadow:0 1px 8px rgba(36,35,30,.8)}
+@media(max-width:700px){.cat-photo-interlude{margin:12px auto 36px}.cat-photo-interlude figcaption{left:12px;bottom:12px}}
+/* Suppress the focused child-button outline that can look like a second card. */
+.preorder .order-summary:focus,.preorder .order-summary:focus-visible,.preorder .order-button:focus,.preorder .order-button:focus-visible{outline:0!important;box-shadow:none!important}
+
+
+/* iOS native button appearance was painting a second inset price-bar card. */
+.preorder .order-summary,.preorder .order-button{appearance:none!important;-webkit-appearance:none!important}
+.preorder .order-summary{background:transparent!important;background-image:none!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+.preorder .order-summary:focus,.preorder .order-summary:focus-visible,.preorder .order-button:focus,.preorder .order-button:focus-visible{outline:0!important;box-shadow:none!important}
+/* Keep the basket shell fixed while its contents scroll independently. */
+dialog#order{padding:0!important;overflow:visible!important;transition:none!important}
+dialog#order[open].is-expanded{overflow:visible!important}
+dialog#order .basket-scroll{height:100%;min-height:0;overflow-y:scroll;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;padding:10px 30px 26px}
+dialog#order .close{position:absolute;top:-18px;right:14px;z-index:5;float:none;min-height:0;padding:10px 17px;border:1px solid rgba(36,35,30,.08)!important;border-radius:999px;background:#fff!important;color:#24231e!important;box-shadow:0 3px 12px rgba(36,35,30,.08)!important;font:12px Satoshi,Arial,sans-serif;white-space:nowrap}
+dialog#order h2{margin:0 0 16px!important}
+dialog#order .close:focus,dialog#order .close:focus-visible{outline:0!important;box-shadow:0 3px 12px rgba(36,35,30,.08)!important}
+html:has(dialog[open]),body:has(dialog[open]){overflow:hidden!important;overscroll-behavior:none}
+@media(max-width:700px){dialog#order .basket-scroll{padding:8px 28px 22px}dialog#order .close{top:-17px;right:12px}}
+/* Legal copy remains a native iOS scroll area under the modal header. */
+dialog#legal-policy[open]{overflow:hidden!important}
+dialog#legal-policy .legal-policy-scroll{height:0;flex:1 1 auto;min-height:0;overflow-y:scroll;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y}
+
+
+/* A closed dialog must remain out of layout; otherwise its card sits under the bar. */
+dialog#order:not([open]){display:none!important}
+dialog#order[open]{display:block}
+/* Keep the floating close pill opaque even while focused on iPhone. */
+dialog#order .close:hover,dialog#order .close:active,dialog#order .close:focus,dialog#order .close:focus-visible{background:#fff!important;background-color:#fff!important;color:#24231e!important;-webkit-text-fill-color:#24231e!important;border-color:rgba(36,35,30,.08)!important;box-shadow:0 3px 12px rgba(36,35,30,.08)!important}
+/* The preorder opening notice stays small and centered inside the basket. */
+dialog#order .checkout-notice{display:block;text-align:center;font:11px/1.4 Satoshi,Arial,sans-serif;margin:15px 0}
+
+/* Mobile spacing and caption refinements. */
+@media(max-width:700px){
+  header{height:56px}
+  .chapter-heading>span{font-size:12px;line-height:1.2;letter-spacing:1px;margin-bottom:16px}
+  .transparency .chapter-heading{margin-bottom:20px}
+  .transparency .editorial>p{margin-bottom:1em}
+  .timeline{margin:30px 0 18px}
+  .timeline article{gap:12px;padding:22px 0}
+  .timeline h3{margin-bottom:10px}
+  .timeline p{margin-bottom:.8em}
+  .transparency.chapter{padding-bottom:20px}
+  .cat-photo-interlude{margin:8px auto 32px}
+  .preorder{bottom:12px}
+  .price .vat-shipping{font-size:11px;letter-spacing:0}
+}
+.chapter-heading>span{font-size:12px;line-height:1.2;letter-spacing:1px}
+.cat-photo-interlude figcaption{position:static;display:block;margin:12px 0 0;color:#24231e;font:400 10px/1.2 Satoshi,Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;text-shadow:none}
+@media(max-width:700px){.cat-photo-interlude figcaption{margin-top:10px}}
+
+/* Flavor carousel, checkout scroll lock, and small navigation button. */
+.hero-caption .hero-kicker{font-size:12px;line-height:1.2;letter-spacing:.12em;text-transform:uppercase;margin:0 0 3px}
+.site-ending>a{display:inline-flex;align-items:center;justify-content:center;padding:8px 16px;border:0!important;border-radius:999px;background:#080908;color:#f4f0ec;text-decoration:none!important;font-size:13px;line-height:1.3}
+.site-ending>a:hover,.site-ending>a:focus,.site-ending>a:focus-visible{border:0!important;text-decoration:none!important}
+.taste-track>span{font-size:clamp(70px,9vw,135px);line-height:.55;padding:14px}
+.taste-window{height:480px;margin-bottom:18px}
+body.motion-enabled .taste{padding-bottom:0}
+.origin.chapter{padding-top:18px}
+@media(max-width:700px){
+  .taste-track>span{font-size:74px;line-height:.55;padding:12px}
+  body.motion-enabled .taste-window{height:440px;margin:16px 0 18px}
+  .origin.chapter{padding-top:18px}
+}
+
+/* Pull the story handoffs together and simplify the two timeline callouts. */
+.timeline article>strong{font-size:clamp(42px,5vw,64px);line-height:.75}
+@media(max-width:700px){
+  .story{padding-bottom:16px}
+  .cat-stage{margin:0 0 12px}
+  .story>.signature{margin-top:8px}
+  .taste.chapter{padding-top:22px;padding-bottom:0}
+  body.motion-enabled .taste-window{margin-bottom:0}
+  .origin.chapter{padding-top:0}
+  .timeline article>strong{font-size:42px;line-height:.75}
+}
+
+/* Reduce the card inset while preserving the CTA's existing size.
+   Card radius = half the CTA height + its inset: 27+14 desktop, 24.5+10 mobile. */
+.preorder{padding:16px 14px 14px!important;gap:6px 14px!important;border-radius:41px!important}
+.order-button{min-height:54px!important}
+dialog#order{border-radius:41px!important}
+@media(max-width:700px){
+  .preorder{padding:14px 10px 10px!important;gap:6px!important;border-radius:34.5px!important}
+  .order-button{min-height:49px!important}
+  dialog#order{bottom:12px!important;max-height:calc(100svh - 24px)!important;border-radius:34.5px!important}
+  dialog#order[open].is-expanded{height:min(88svh,900px)}
+}
+
+/* Shrink only the outer card; preserve the established inner content width. */
+.preorder{width:min(704px,calc(100% - 48px))!important;padding:20px 10px 10px!important;gap:8px 18px!important;border-radius:37px!important}
+.preorder .order-button{width:100%;min-height:54px!important}
+dialog#order{width:min(704px,calc(100% - 48px))!important;bottom:12px!important;border-radius:37px!important}
+.timeline article>strong{font-size:clamp(56px,7vw,72px);line-height:.78}
+@media(max-width:700px){
+  .preorder{width:calc(100% - 40px)!important;padding:16px 6px 6px!important;gap:8px!important;border-radius:30.5px!important}
+  .preorder .order-button{min-height:49px!important}
+  dialog#order{width:calc(100% - 40px)!important;bottom:12px!important;max-height:calc(100svh - 24px)!important;border-radius:30.5px!important}
+  dialog#order[open].is-expanded{height:min(88svh,900px)}
+  .timeline article>strong{font-size:clamp(48px,14vw,58px);line-height:.78}
+}
+
+/* Restore the earlier price-bar inset and matching basket footprint. */
+.preorder{width:min(720px,calc(100% - 32px))!important;padding:20px 18px 18px!important;gap:8px 18px!important;border-radius:45px!important}
+.preorder .order-button{width:100%;min-height:54px!important}
+dialog#order{width:min(720px,calc(100% - 32px))!important;bottom:12px!important;border-radius:45px!important}
+@media(max-width:700px){
+  .preorder{width:calc(100% - 24px)!important;padding:16px 14px 14px!important;gap:8px!important;border-radius:38.5px!important}
+  .preorder .order-button{min-height:49px!important}
+  dialog#order{width:calc(100% - 24px)!important;bottom:12px!important;max-height:calc(100svh - 24px)!important;border-radius:38.5px!important}
+  dialog#order[open].is-expanded{height:min(88svh,900px)}
+}
+.hero-caption{bottom:8%}
+.hero-caption p:first-child{margin-bottom:1px}
+@media(max-width:700px){.hero-caption{bottom:8%}}
+
+/* Give the transparency story more breathing room without widening its handoff. */
+@media(max-width:700px){
+  .transparency .chapter-heading{margin-bottom:30px}
+  .transparency .editorial>p{margin-bottom:1.25em}
+  .timeline{margin:42px 0 30px}
+  .timeline article{gap:18px;padding:30px 0}
+  .timeline p{margin-bottom:1.1em}
+  .transparency.chapter{padding-bottom:36px}
+}
+.transparency .timeline p{font-size:clamp(24px,2vw,28px)!important;line-height:1.38}
+@media(max-width:700px){.transparency .timeline p{font-size:24px!important}}
+
+/* Keep the complete basket visible in the popup without an inner scroll area. */
+dialog#order .basket-scroll{display:flex;flex-direction:column;overflow:hidden!important;touch-action:none;overscroll-behavior:none;padding:10px 26px 14px}
+dialog#order h2{margin:0 0 10px!important}
+dialog#order .cart-line{grid-template-columns:52px minmax(0,1fr) auto!important;gap:8px!important;padding:4px 0!important;flex:none}
+dialog#order .cart-line img{width:48px!important;height:52px!important}
+dialog#order .total{padding-top:10px;margin-top:8px}
+dialog#order .basket-scroll>p{font-size:12px;line-height:1.35;margin:5px 0 0}
+dialog#order .basket-scroll>.shopify-closed{flex:none;width:calc(100% - 12px);min-height:49px;margin:auto 6px 0!important;border-radius:40px}
+dialog#order .basket-scroll>.checkout-notice{flex:none;margin:6px 0 0;padding:0 4px 0;font-size:11px;line-height:1.3;text-align:center}
+@media(max-width:700px){dialog#order .basket-scroll{padding:8px 18px 12px}}
+@media(max-width:700px){.story{padding-bottom:28px}.taste.chapter{padding-top:30px}}
+@media(min-width:701px){
+  /* Use the first story copy block as the shared desktop content rail. */
+  .story,.chapter{max-width:calc(850px + 2 * var(--pad));padding-left:var(--pad);padding-right:var(--pad)}
+  .story-copy{width:100%;max-width:850px;margin-inline:auto;text-align:left}
+  .chapter-heading{margin-bottom:52px}
+  .origin-grid{display:block}
+  .origin-grid>div:first-child{width:100%;max-width:850px}
+  .origin-grid p,.editorial>p{text-align:left}
+  .origin-carousel{width:100%;max-width:850px;margin:52px auto 0}
+  .origin-rail{display:flex;flex-direction:column;gap:28px;overflow:visible;scroll-snap-type:none;overscroll-behavior:initial}
+  .origin-slide{flex:none;width:100%;aspect-ratio:auto;overflow:visible;scroll-snap-align:none}
+  .origin-slide img{height:auto;object-fit:contain}
+  .origin-gallery-controls{margin-top:18px;justify-content:flex-start}
+  .origin-gallery-controls .origin-count,.origin-gallery-controls button{display:none}
+  .transparency .editorial,.shipping .editorial{max-width:850px;margin-left:0}
+}
+
+@media(min-width:701px){
+  .chapter-heading{display:block;text-align:left;margin-bottom:52px}
+  .chapter-heading>span{display:block;padding:0;margin-bottom:16px}
+  .chapter-heading h2{text-align:left}
+  .origin-rail{flex-direction:row;gap:14px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;overscroll-behavior-x:contain}
+  .origin-slide{flex:0 0 86%;width:auto;aspect-ratio:4/5;overflow:hidden;scroll-snap-align:start}
+  .origin-slide img{height:100%;object-fit:cover}
+  .origin-carousel{margin-top:42px}
+  .origin-gallery-controls .origin-count{display:inline}
+  .origin-gallery-controls button{display:inline-flex}
+  .preorder{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)!important}
+  .order-summary>span:nth-of-type(1){white-space:nowrap;flex:none}
+  .order-summary>span:nth-of-type(1)>b{white-space:nowrap}
+  dialog#order{z-index:40;}
+  dialog#order .close{z-index:45}
+  dialog#order .basket-scroll{justify-content:flex-start;gap:14px;padding:18px 28px 18px}
+  dialog#order .basket-products{display:flex;flex-direction:column;gap:4px}
+  dialog#order .basket-products .cart-line{padding:6px 0!important}
+  dialog#order .basket-details{margin:0}
+  dialog#order .basket-action{flex:none;width:100%;margin-top:0}
+  dialog#order .basket-action>.shopify-closed{width:calc(100% - 12px);margin:0 6px!important}
+  dialog#order .basket-action>.checkout-notice{margin:8px 0 0}
+  dialog#order[open].is-expanded{height:auto}
+}
+
+/* Center the wordmark consistently and simplify the footer into one policy entry point. */
+header{justify-content:center}
+header>a{display:block;position:absolute;left:50%;transform:translateX(-50%)}
+header .header-logo{max-width:48vw}
+@media(min-width:701px){main .closing-thanks{max-width:780px;text-wrap:balance}}
+.legal-links{margin:20px auto 0}
+.legal-links button{border:0;background:none;padding:0;color:inherit;opacity:.5;text-decoration:none;font:11px/1.4 Satoshi,Arial,sans-serif;cursor:pointer}
+.legal-links button:hover{opacity:.7}
+.footer-social{display:flex;justify-content:center;align-items:center;gap:22px;margin:24px auto 10px}
+.footer-social a{border:0;display:grid;place-items:center;width:24px;height:24px;color:#24231e;opacity:.72}
+.footer-social a:hover{opacity:1}
+.footer-social svg{display:block;width:20px;height:20px;fill:currentColor}
+.footer-copyright{margin:0 auto;text-align:center;font:11px/1.4 Satoshi,Arial,sans-serif;opacity:.65}
+.footer-copyright a{border:0;text-decoration:none}
+.legal-policy-tabs{flex:none;display:flex;gap:6px;overflow-x:auto;overscroll-behavior-x:contain;white-space:nowrap;padding:14px 18px 10px;background:#f4f0ec;border-bottom:1px solid #24231e22;scrollbar-width:none}
+.legal-policy-tabs::-webkit-scrollbar{display:none}
+.legal-policy-tabs [role="tab"]{flex:none;border:0;border-radius:999px;background:transparent;color:#24231e;padding:9px 13px;font:12px/1.15 Satoshi,Arial,sans-serif;opacity:.62;cursor:pointer}
+.legal-policy-tabs [role="tab"][aria-selected="true"]{background:#24231e;color:#fff;opacity:1}
+.legal-policy-header{min-height:48px}
+@media(max-width:700px){
+ header>a{left:50%}
+ main .closing-thanks{max-width:calc(100% - 32px);text-wrap:balance}
+ .footer-social{margin:20px auto 9px}
+ .legal-policy-tabs{padding:10px 10px 8px;gap:3px}
+ .legal-policy-tabs [role="tab"]{padding:8px 11px;font-size:11px}
+ .legal-policy-header{min-height:44px}
+}
+
+/* Pin gallery controls to a stable right-hand grid as the viewport changes. */
+.origin-gallery-controls{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;align-items:center;gap:12px;width:100%}
+.origin-gallery-controls>span:first-child{margin-right:0}
+.origin-gallery-controls button{display:grid;place-items:center;flex:none;width:38px;height:38px;padding:0;line-height:1}
+.scroll-more,.scroll-more span{font-weight:700}
+@media(min-width:701px){
+  dialog#order[open].is-expanded{height:auto}
+  dialog#order .basket-scroll{height:auto;min-height:0}
+}
+.footer-meta{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:12px;width:100%;max-width:850px;margin:14px auto 0}
+.footer-meta .footer-copyright{grid-column:1;grid-row:2;justify-self:start;margin:0;text-align:left;font:11px/1.4 Satoshi,Arial,sans-serif;opacity:.5}
+.footer-meta .footer-logo{grid-column:2;grid-row:2;justify-self:center;width:112px;height:auto;margin:0}
+.footer-meta .legal-links{grid-column:3;grid-row:2;justify-self:end;margin:0}
+.footer-meta .legal-links button{font:11px/1.4 Satoshi,Arial,sans-serif;opacity:.5}
+.footer-meta .footer-social{grid-column:1/-1;grid-row:1;justify-self:center;gap:16px;margin:0 0 2px}
+.footer-meta .footer-social a{opacity:.65}
+@media(max-width:700px){
+ .footer-meta{gap:10px;width:100%;margin-top:12px}
+ .footer-meta .footer-logo{width:clamp(48px,16vw,70px)}
+ .footer-meta .footer-copyright,.footer-meta .legal-links button{font-size:10px}
+ .footer-meta .footer-social{gap:8px}
+ .footer-meta .footer-social a{width:20px;height:20px}
+ .footer-meta .footer-social svg{width:18px;height:18px}
+}
+
+/* Match the hero scroll prompt to the Back to top pill. */
+.scroll-more{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;border:0!important;border-radius:999px;background:transparent;color:#24231e;text-decoration:none!important;font:700 13px/1.3 Satoshi,Arial,sans-serif}
+.scroll-more:hover,.scroll-more:focus,.scroll-more:focus-visible{border:0!important;text-decoration:none!important}
+.scroll-more .scroll-arrow{font:700 16px/1 Satoshi,Arial,sans-serif}
+/* Measure the basket by its contents on every device instead of filling a viewport-sized panel. */
+dialog#order .basket-scroll{height:auto!important;min-height:0;overflow:hidden!important}
+dialog#order[open].is-expanded{height:auto}
+dialog#order .cart-price{display:flex;flex-direction:column;align-items:flex-end;gap:1px;white-space:nowrap}
+dialog#order .cart-price small{font:400 10px/1.2 Satoshi,Arial,sans-serif;opacity:.72}
+
+/* Leave only a small reveal gap between the final footer row and the fixed preorder bar. */
+section.shipping.chapter{padding-bottom:calc(var(--bar) + 16px)}
+
+/* Put the delivery note directly below the subtotal amount. */
+dialog#order .total{align-items:center}
+dialog#order .total-amount{display:flex;flex-direction:column;align-items:flex-end;gap:1px;font-weight:700}
+dialog#order .total-amount small{font:400 12px/1.35 Satoshi,Arial,sans-serif;opacity:.72}
+/* Give the main order actions a restrained dark-grey hover state. */
+.order-button,.shopify-closed{transition:background-color .18s ease,color .18s ease,transform .18s ease}
+.order-button:hover,.shopify-closed:hover{background:#292927!important}
+.shopify-closed{cursor:pointer}
+.shopify-closed.is-tapped{animation:preorder-nudge .32s cubic-bezier(.2,.8,.3,1)}
+.shopify-closed:active{transform:scale(1.02)}
+@keyframes preorder-nudge{0%{transform:scale(1)}35%{transform:scale(1.025) translateY(-1px)}68%{transform:scale(.995)}100%{transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.shopify-closed.is-tapped{animation:none}.order-button,.shopify-closed{transition:none}}
+
+/* More breathing room between Back to top and the footer socials, with a slightly larger mobile wordmark. */
+.footer-meta{margin-top:34px}
+@media(max-width:700px){
+ .footer-meta{margin-top:30px}
+ .footer-meta .footer-logo{width:clamp(64px,19vw,76px)}
+}
+
+/* Increase the separation between Back to top and the social row. */
+.footer-meta{margin-top:120px}
+@media(max-width:700px){.footer-meta{margin-top:112px}}
+
+#pouch.touch-rubber canvas{pointer-events:auto!important;touch-action:pan-y!important}
+/* Keyboard access: a visible skip link and clear focus indicators. */
+.skip-link{position:fixed;top:12px;left:var(--pad);z-index:1000;padding:12px 16px;border:1px solid #24231e;border-radius:999px;background:#fff;color:#24231e;transform:translateY(calc(-100% - 20px));transition:transform .18s ease}
+.skip-link:focus{transform:translateY(0)}
+:where(a,button,[tabindex]):focus-visible{outline:3px solid #71512e!important;outline-offset:3px!important;box-shadow:none!important}
+.preorder .order-summary:focus-visible,.preorder .order-button:focus-visible{outline:3px solid #71512e!important;outline-offset:3px!important;box-shadow:none!important}
+dialog#order .close:focus-visible,dialog#legal-policy .legal-policy-close:focus-visible{outline:3px solid #71512e!important;outline-offset:3px!important;box-shadow:none!important}
+@media(prefers-reduced-motion:reduce){.skip-link{transition:none}}
