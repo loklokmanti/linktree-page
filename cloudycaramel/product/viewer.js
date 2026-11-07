@@ -4310,7 +4310,7 @@ const startAngle=Math.atan2(startPosition[0],-startPosition[2]);
 const endAngle=Math.atan2(endPosition[0],-endPosition[2]);
 const startRadius=Math.hypot(startPosition[0],startPosition[2]);
 const endRadius=Math.hypot(endPosition[0],endPosition[2]);
-let rubberEnabled=false,dragging=false,rubberRecognized=false,dragYaw=0,dragPitch=0,dragOriginYaw=0,dragOriginPitch=0,dragStartX=0,dragStartY=0,springYawVelocity=0,springPitchVelocity=0,springFrame=0,springTime=0;
+let rubberEnabled=false,dragging=false,rubberRecognized=false,dragYaw=0,dragPitch=0,mouseYaw=0,mousePitch=0,dragOriginYaw=0,dragOriginPitch=0,dragStartX=0,dragStartY=0,springYawVelocity=0,springPitchVelocity=0,springFrame=0,springTime=0;
 // Measure the fixed end silhouette once; interpolate zoom without refitting mid-turn.
 let endHalfWidth=0,endHalfHeight=0,minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity,minZ=Infinity,maxZ=-Infinity;
 const ex=endPosition[0],ey=endPosition[1]-targetY,ez=endPosition[2];
@@ -4340,7 +4340,7 @@ function applyScrollPose(p){
  const q=Math.max(0,Math.min(1,p)),progress=q*q*(3-2*q);
  const angle=startAngle+(Math.PI*2+endAngle-startAngle)*progress;
  const radius=startRadius+(endRadius-startRadius)*progress;
- setPouchRotation(dragPitch,dragYaw);
+ setPouchRotation(dragPitch+mousePitch,dragYaw+mouseYaw);
  if(q===0)n.camera.position.fromArray(startPosition);
  else if(q===1)n.camera.position.fromArray(endPosition);
  else n.camera.position.set(Math.sin(angle)*radius,startPosition[1]+(endPosition[1]-startPosition[1])*progress,-Math.cos(angle)*radius);
@@ -4351,7 +4351,7 @@ function applyScrollPose(p){
  n.camera.updateProjectionMatrix();n.controls.update();n.invalidate();
 }
 const canvas=n.renderer.domElement;
-function paintRubberPose(){setPouchRotation(dragPitch,dragYaw);n.invalidate();}
+function paintRubberPose(){setPouchRotation(dragPitch+mousePitch,dragYaw+mouseYaw);n.invalidate();}
 function stopRubberSpring(){if(springFrame)cancelAnimationFrame(springFrame);springFrame=0;springTime=0;springYawVelocity=0;springPitchVelocity=0;}
 function springBack(now){
  if(!springTime)springTime=now;
@@ -4400,4 +4400,4 @@ canvas.addEventListener('pointerdown',onRubberPointerDown,{passive:false});
 canvas.addEventListener('pointermove',onRubberPointerMove,{passive:false});
 canvas.addEventListener('pointerup',releaseRubberPointer);canvas.addEventListener('pointercancel',releaseRubberPointer);canvas.addEventListener('lostpointercapture',releaseRubberPointer);
 applyScrollPose(0);
-return{resetView(){applyScrollPose(0)},setInteraction(enabled){rubberEnabled=enabled;n.controls.enabled=false;canvas.style.pointerEvents=enabled?'auto':'none';canvas.style.touchAction='pan-y';if(!enabled&&dragging)releaseRubberPointer({pointerId:canvas._rubberPointerId});},setScrollProgress:applyScrollPose,dispose(){stopRubberSpring();canvas.removeEventListener('pointerdown',onRubberPointerDown);canvas.removeEventListener('pointermove',onRubberPointerMove);canvas.removeEventListener('pointerup',releaseRubberPointer);canvas.removeEventListener('pointercancel',releaseRubberPointer);canvas.removeEventListener('lostpointercapture',releaseRubberPointer);n.dispose(),e.remove()}}}var el=class extends HTMLElement{connectedCallback(){if(this._mounted)return;this._mounted=!0;let t=this._token=(this._token||0)+1;this.shadowRoot||this.attachShadow({mode:"open"}),this.shadowRoot.innerHTML='<style>:host{display:block;height:500px;min-height:240px}.view{width:100%;height:100%}.error{font:14px system-ui;padding:20px}</style><div class="view"></div>',_g(this.shadowRoot.querySelector(".view"),{interactive:!this.hasAttribute("static"),modelURL:this.getAttribute("src")||void 0}).then(e=>{!this.isConnected||t!==this._token?e.dispose():this._view=e}).catch(e=>{this.shadowRoot.innerHTML='<p class="error">The product preview could not load.</p>',console.error(e)})}disconnectedCallback(){this._mounted=!1,this._token=(this._token||0)+1,this._view?.dispose(),this._view=null}};customElements.get("coffee-pouch-viewer")||customElements.define("coffee-pouch-viewer",el);export{_g as mountPouchViewer};
+return{resetView(){applyScrollPose(0)},setMouseInfluence(x,y){mouseYaw=Math.max(-1,Math.min(1,x))*.04;mousePitch=Math.max(-1,Math.min(1,y))*.025;paintRubberPose()},setInteraction(enabled){rubberEnabled=enabled;n.controls.enabled=false;canvas.style.pointerEvents=enabled?'auto':'none';canvas.style.touchAction='pan-y';if(!enabled&&dragging)releaseRubberPointer({pointerId:canvas._rubberPointerId});},setScrollProgress:applyScrollPose,dispose(){stopRubberSpring();canvas.removeEventListener('pointerdown',onRubberPointerDown);canvas.removeEventListener('pointermove',onRubberPointerMove);canvas.removeEventListener('pointerup',releaseRubberPointer);canvas.removeEventListener('pointercancel',releaseRubberPointer);canvas.removeEventListener('lostpointercapture',releaseRubberPointer);n.dispose(),e.remove()}}}var el=class extends HTMLElement{connectedCallback(){if(this._mounted)return;this._mounted=!0;let t=this._token=(this._token||0)+1;this.shadowRoot||this.attachShadow({mode:"open"}),this.shadowRoot.innerHTML='<style>:host{display:block;height:500px;min-height:240px}.view{width:100%;height:100%}.error{font:14px system-ui;padding:20px}</style><div class="view"></div>',_g(this.shadowRoot.querySelector(".view"),{interactive:!this.hasAttribute("static"),modelURL:this.getAttribute("src")||void 0}).then(e=>{!this.isConnected||t!==this._token?e.dispose():this._view=e}).catch(e=>{this.shadowRoot.innerHTML='<p class="error">The product preview could not load.</p>',console.error(e)})}disconnectedCallback(){this._mounted=!1,this._token=(this._token||0)+1,this._view?.dispose(),this._view=null}};customElements.get("coffee-pouch-viewer")||customElements.define("coffee-pouch-viewer",el);export{_g as mountPouchViewer};

@@ -1,4 +1,4 @@
-import {mountPouchViewer} from './product/viewer.js?v=mobile-pan-119';
+import {mountPouchViewer} from './product/viewer.js?v=desktop-mouse-120';
 const reduce=false;document.body.classList.add('motion-enabled');
 const touchDevice=matchMedia('(pointer:coarse)').matches||navigator.maxTouchPoints>0;let interacting=false;
 const pouch=document.querySelector('#pouch');
@@ -64,6 +64,23 @@ function render(){
 function frame(time){render();animateCat(time);requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
 addEventListener('resize',()=>{lastProgress=-1});
+// A restrained desktop-only mouse look gives the pouch a little presence without replacing its scroll motion.
+let mouseAimX=0,mouseAimY=0,mouseCurrentX=0,mouseCurrentY=0,mouseAimFrame=0;
+function easePouchMouseAim(){
+ mouseAimFrame=0;
+ if(!viewer||touchDevice||innerWidth<701)return;
+ mouseCurrentX+=(mouseAimX-mouseCurrentX)*.12;
+ mouseCurrentY+=(mouseAimY-mouseCurrentY)*.12;
+ viewer.setMouseInfluence(mouseCurrentX,mouseCurrentY);
+ if(Math.abs(mouseAimX-mouseCurrentX)>.001||Math.abs(mouseAimY-mouseCurrentY)>.001)mouseAimFrame=requestAnimationFrame(easePouchMouseAim);
+}
+addEventListener('pointermove',event=>{
+ if(touchDevice||innerWidth<701||event.pointerType!=='mouse')return;
+ mouseAimX=(event.clientX-innerWidth/2)/(innerWidth/2);
+ mouseAimY=(event.clientY-innerHeight/2)/(innerHeight/2);
+ if(!mouseAimFrame)mouseAimFrame=requestAnimationFrame(easePouchMouseAim);
+},{passive:true});
+addEventListener('blur',()=>{mouseAimX=mouseAimY=0;if(!mouseAimFrame)mouseAimFrame=requestAnimationFrame(easePouchMouseAim)});
 
 // Animate SVG attributes directly for consistent playback on mobile Safari.
 const eyeWhites=document.querySelector('.cat-eye-whites');
@@ -125,7 +142,7 @@ originRail.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='Arro
 addEventListener('resize',updateOriginGallery);
 
 // Explicit CET offset makes this the same instant in every visitor's timezone.
-const preorderLaunch=Date.parse('2026-11-06T19:00:00+01:00');
+const preorderLaunch=Date.parse('2026-11-14T19:00:00+01:00');
 const preorderCountdown=document.querySelector('.countdown-label');
 function formatPreorderCountdown(now){
  const seconds=Math.max(0,Math.ceil((preorderLaunch-now)/1000));
@@ -462,3 +479,23 @@ document.querySelector('[data-policy-open]').addEventListener('click',()=>{
 });
 document.querySelector('.legal-policy-close').addEventListener('click',event=>{event.preventDefault();legalPolicyDialog.close();});
 legalPolicyDialog.addEventListener('click',event=>{if(event.target===legalPolicyDialog)legalPolicyDialog.close()});
+
+
+// Desktop and tablet section navigation follows the scroll position.
+const progressNav=document.querySelector('.section-progress');
+if(progressNav){
+ const progressLinks=[...progressNav.querySelectorAll('.section-progress-lines a')];
+ const progressSections=progressLinks.map(link=>document.querySelector(link.getAttribute('href'))).filter(Boolean);
+ let progressFrame=0;
+ const updateProgress=()=>{
+  progressFrame=0;
+  const marker=innerHeight*.4;
+  let current=0;
+  progressSections.forEach((section,index)=>{if(section.getBoundingClientRect().top<=marker)current=index;});
+  progressLinks.forEach((link,index)=>{if(index===current)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current');});
+ };
+ const queueProgress=()=>{if(!progressFrame)progressFrame=requestAnimationFrame(updateProgress)};
+ addEventListener('scroll',queueProgress,{passive:true});
+ addEventListener('resize',queueProgress,{passive:true});
+ queueProgress();
+}
