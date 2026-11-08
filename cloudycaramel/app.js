@@ -1,9 +1,9 @@
-import {mountPouchViewer} from './product/viewer.js?v=desktop-mouse-120';
+import {mountPouchViewer} from './product/viewer.js?v=pouch-user-defaults-20261108';
 const reduce=false;document.body.classList.add('motion-enabled');
 const touchDevice=matchMedia('(pointer:coarse)').matches||navigator.maxTouchPoints>0;let interacting=false;
 const pouch=document.querySelector('#pouch');
 let viewer;mountPouchViewer(pouch).then(v=>{viewer=v;viewer.setInteraction(true);pouch.classList.remove("touch-scroll");pouch.classList.add("touch-rubber");render()}).catch(e=>{console.error(e);pouch.innerHTML='<img src="assets/optimized/model-image-0.png" alt="Coffeeblackcat label" style="width:100%;height:100%;object-fit:contain">';});
-const dialog=document.querySelector('#order'),preorderBar=document.querySelector('.preorder');let basketAnimation=null,lockedScrollY=0,bodyLockSnapshot=null;function lockPageScroll(){if(bodyLockSnapshot)return;lockedScrollY=window.scrollY;const body=document.body;bodyLockSnapshot={position:body.style.position,top:body.style.top,left:body.style.left,right:body.style.right,width:body.style.width};document.documentElement.classList.add('dialog-scroll-locked');body.classList.add('dialog-scroll-locked');body.style.position='fixed';body.style.top=`-${lockedScrollY}px`;body.style.left='0';body.style.right='0';body.style.width='100%';}function unlockPageScroll(){if(!bodyLockSnapshot)return;const body=document.body;Object.assign(body.style,bodyLockSnapshot);body.classList.remove('dialog-scroll-locked');document.documentElement.classList.remove('dialog-scroll-locked');const y=lockedScrollY;bodyLockSnapshot=null;window.scrollTo(0,y);}function openOrder(){if(dialog.open)return;window.refreshShopifyCheckout?.();const originHeight=preorderBar.getBoundingClientRect().height;dialog.style.setProperty('--basket-origin-height',`${originHeight}px`);dialog.style.height=`${originHeight}px`;dialog.classList.remove('is-expanded');if(matchMedia('(min-width:701px)').matches){dialog.show();}else{lockPageScroll();dialog.showModal();}const basketContent=dialog.querySelector('.basket-scroll');const targetHeight=Math.min(basketContent.scrollHeight+2,window.innerHeight-32);if(matchMedia('(prefers-reduced-motion: reduce)').matches){dialog.style.height=`${targetHeight}px`;dialog.classList.add('is-expanded');return;}requestAnimationFrame(()=>{if(!dialog.open)return;if(typeof dialog.animate==='function'){basketAnimation=dialog.animate([{height:`${originHeight}px`},{height:`${targetHeight}px`}],{duration:680,easing:'cubic-bezier(.22,1,.36,1)'});basketAnimation.onfinish=()=>{if(!dialog.open)return;dialog.style.height=`${targetHeight}px`;dialog.classList.add('is-expanded');basketAnimation=null;};}else{dialog.classList.add('is-expanded');}});}document.querySelectorAll('.order-summary,.order-button').forEach(b=>b.onclick=openOrder);window.refreshShopifyCheckout?.();document.querySelector('.close').onclick=()=>dialog.close();dialog.addEventListener('close',()=>{if(basketAnimation){basketAnimation.cancel();basketAnimation=null;}dialog.classList.remove('is-expanded');dialog.style.height='';unlockPageScroll();});dialog.addEventListener('wheel',event=>{if(dialog.open)event.preventDefault();},{passive:false});dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientY<r.top||e.clientX<r.left||e.clientX>r.right)dialog.close();}});
+const dialog=document.querySelector('#order'),preorderBar=document.querySelector('.preorder');let basketAnimation=null,lockedScrollY=0,bodyLockSnapshot=null;function lockPageScroll(){if(bodyLockSnapshot)return;lockedScrollY=window.scrollY;const body=document.body;bodyLockSnapshot={position:body.style.position,top:body.style.top,left:body.style.left,right:body.style.right,width:body.style.width};document.documentElement.classList.add('dialog-scroll-locked');body.classList.add('dialog-scroll-locked');body.style.position='fixed';body.style.top=`-${lockedScrollY}px`;body.style.left='0';body.style.right='0';body.style.width='100%';}function unlockPageScroll(){if(!bodyLockSnapshot)return;const body=document.body;Object.assign(body.style,bodyLockSnapshot);body.classList.remove('dialog-scroll-locked');document.documentElement.classList.remove('dialog-scroll-locked');const y=lockedScrollY;bodyLockSnapshot=null;window.scrollTo(0,y);}function openOrder(){if(dialog.open)return;const originHeight=preorderBar.getBoundingClientRect().height;dialog.style.setProperty('--basket-origin-height',`${originHeight}px`);dialog.style.height=`${originHeight}px`;dialog.classList.remove('is-expanded');if(matchMedia('(min-width:701px)').matches){dialog.show();}else{lockPageScroll();dialog.showModal();}const basketContent=dialog.querySelector('.basket-scroll');const targetHeight=Math.min(basketContent.scrollHeight+2,window.innerHeight-32);if(matchMedia('(prefers-reduced-motion: reduce)').matches){dialog.style.height=`${targetHeight}px`;dialog.classList.add('is-expanded');return;}requestAnimationFrame(()=>{if(!dialog.open)return;if(typeof dialog.animate==='function'){basketAnimation=dialog.animate([{height:`${originHeight}px`},{height:`${targetHeight}px`}],{duration:680,easing:'cubic-bezier(.22,1,.36,1)'});basketAnimation.onfinish=()=>{if(!dialog.open)return;dialog.style.height=`${targetHeight}px`;dialog.classList.add('is-expanded');basketAnimation=null;};}else{dialog.classList.add('is-expanded');}});}document.querySelectorAll('.order-summary,.order-button').forEach(b=>b.onclick=openOrder);document.querySelector('.close').onclick=()=>dialog.close();dialog.addEventListener('close',()=>{if(basketAnimation){basketAnimation.cancel();basketAnimation=null;}dialog.classList.remove('is-expanded');dialog.style.height='';unlockPageScroll();});dialog.addEventListener('wheel',event=>{if(dialog.open)event.preventDefault();},{passive:false});dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientY<r.top||e.clientX<r.left||e.clientX>r.right)dialog.close();}});
 // One timeline drives camera and copy. Layout dimensions stay fixed while scrolling.
 const storyUnderlay=document.querySelector('.scroll-story');
 const hero=document.querySelector('.hero'),stage=document.querySelector('.hero-stage');
@@ -27,6 +27,7 @@ function render(){
  
  caption.style.opacity=1-clamp(current*2.5);
  const tasteInner=document.querySelector('.taste-inner');
+ const tasteCopy=document.querySelector('.taste-copy');
  const tasteWindow=document.querySelector('.taste-window');
  const tasteStyle=getComputedStyle(taste);
  const paddingTop=parseFloat(tasteStyle.paddingTop)||0;
@@ -34,31 +35,53 @@ function render(){
  const paddingLeft=parseFloat(tasteStyle.paddingLeft)||0;
  const paddingRight=parseFloat(tasteStyle.paddingRight)||0;
  const sectionRect=taste.getBoundingClientRect();
- const contentWidth=taste.clientWidth-paddingLeft-paddingRight;
- tasteInner.style.width=`${contentWidth}px`;
- const visibleBottom=innerHeight-document.querySelector('.preorder').offsetHeight;
- const panelCenter=(78+visibleBottom)/2;
- const pinTop=Math.min(95,panelCenter-tasteWindow.offsetTop-tasteWindow.offsetHeight/2);
- const horizontalTravel=Math.max(0,track.scrollWidth-tasteWindow.clientWidth);
- // Keep the horizontal story moving, with a shorter handoff into Origin.
- const runway=Math.max(innerHeight*.58,horizontalTravel*.58);
- const compositionHeight=Math.max(tasteInner.offsetHeight,innerHeight-pinTop);
- const sectionHeight=paddingTop+compositionHeight+paddingBottom+runway;
+ const viewportHeight=innerHeight;
+ const viewportWidth=innerWidth;
+ tasteInner.style.width=`${viewportWidth}px`;
+ const horizontalTravel=Math.max(0,track.scrollWidth-viewportWidth);
+ // First let the tasting copy clear; then hold a full-screen black bean scene while the notes travel.
+ const runway=Math.max(viewportHeight*1.9,horizontalTravel/0.52);
+ const exitFade=viewportHeight*.32;
+ const pinnedDistance=runway+exitFade;
+ const sectionHeight=pinnedDistance+viewportHeight;
  if(Math.abs(taste.offsetHeight-sectionHeight)>1)taste.style.height=`${sectionHeight}px`;
- const consumed=pinTop-sectionRect.top-paddingTop;
+ const consumed=-sectionRect.top;
  const tasteProgress=clamp(consumed/runway);
- // Explicitly lock the composition while vertical scroll drives only its X offset.
- if(consumed>=0&&consumed<=runway){
-  tasteInner.style.position='fixed';tasteInner.style.top=`${pinTop}px`;
-  tasteInner.style.left=`${sectionRect.left+paddingLeft}px`;
+ const exitProgress=clamp((consumed-runway)/exitFade);
+ const sceneEnd=pinnedDistance+viewportHeight;
+ const isPinned=consumed>=0&&consumed<=sceneEnd;
+ if(isPinned){
+  tasteInner.style.position='fixed';tasteInner.style.top='0px';tasteInner.style.left='0px';
  }else{
   tasteInner.style.position='absolute';
-  tasteInner.style.top=`${paddingTop+(consumed>runway?runway:0)}px`;
+  tasteInner.style.top=`${consumed<0?0:sceneEnd}px`;
   tasteInner.style.left=`${paddingLeft}px`;
  }
- const tasteOffset=-tasteProgress*horizontalTravel;
- track.style.transform=`translateX(${tasteOffset}px)`;
+ const smooth=value=>{const t=clamp(value);return t*t*(3-2*t)};
+ const copyExit=smooth(tasteProgress/.14);
+ const fadeInStart=runway*.06;
+ const fadeInLength=runway*.08;
+ const fadeOutStart=pinnedDistance;
+ const stageIn=smooth((consumed-fadeInStart)/fadeInLength);
+ const stageOut=1-smooth((consumed-fadeOutStart)/(viewportHeight*.22));
+ const stageOpacity=stageIn*stageOut;
+ const darkness=stageOpacity>.5;
+ // Reveal the beans with the black transition instead of leaving an empty beat.
+ const beanIn=smooth((tasteProgress-.06)/.07);
+ const noteStart=.2;
+ const notesProgress=clamp((tasteProgress-noteStart)/(1-noteStart));
+ const copyTravel=tasteCopy.offsetTop+tasteCopy.offsetHeight+24;
+ tasteCopy.style.opacity=String(1-copyExit);
+ tasteCopy.style.transform=`translate3d(-50%,${-copyTravel*copyExit}px,0)`;
+ tasteWindow.style.opacity=String(stageOpacity);
+ tasteWindow.style.pointerEvents=stageOpacity>.01?'auto':'none';
+ const beans=document.querySelector('#taste-beans');
+ beans.style.opacity=String(beanIn);
+ track.style.opacity=tasteProgress>=noteStart?'1':'0';
+ const tasteOffset=viewportWidth-(viewportWidth+horizontalTravel)*notesProgress;
+ track.style.transform=`translate3d(${tasteOffset}px,0,0)`;
  track.style.setProperty('--taste-offset',`${tasteOffset}px`);
+ document.body.classList.toggle('taste-dark-stage',darkness);
 
 }
 function frame(time){render();animateCat(time);requestAnimationFrame(frame)}
@@ -498,4 +521,78 @@ if(progressNav){
  addEventListener('scroll',queueProgress,{passive:true});
  addEventListener('resize',queueProgress,{passive:true});
  queueProgress();
+}
+
+
+function initLightingStudio(activeViewer){
+ if(new URLSearchParams(location.search).get("studio")!=="1")return;
+ const defaults={
+  lighting:{power:4.2,ambient:1.85,exposure:.66,azimuth:304,elevation:71,size:55,color:"#ffffff"},
+  finish:{roughness:.5,coat:.35,grain:.12},
+  lights:{
+   fill:{enabled:true,power:3.65,azimuth:70,elevation:-3,color:"#ffcb8f"},
+   rim:{enabled:true,power:1.55,azimuth:288,elevation:59,color:"#ffcb8f"}
+  }
+ };
+ const settings=JSON.parse(JSON.stringify(defaults));
+ const host=document.createElement("div");
+ host.className="pouch-studio-tools";
+ host.innerHTML=`
+  <button class="pouch-studio-trigger" type="button" aria-expanded="false" aria-controls="pouch-studio-panel">Light &amp; finish</button>
+  <section class="pouch-studio-panel" id="pouch-studio-panel" aria-label="Pouch lighting and finish controls" hidden>
+   <header class="pouch-studio-heading"><span><b>Pouch studio</b><small>Live preview controls</small></span><button type="button" class="pouch-studio-close" aria-label="Close lighting controls">×</button></header>
+   <div class="pouch-studio-group"><h2>LIGHT</h2>
+    <label><span>Key light <output>4.2</output></span><input type="range" min="0" max="6" step="0.1" value="4.2" data-setting="lighting.power"></label>
+    <label><span>Key azimuth <output>304.00</output></span><input type="range" min="0" max="360" step="1" value="304" data-setting="lighting.azimuth"></label>
+    <label><span>Key elevation <output>71.00</output></span><input type="range" min="0" max="85" step="1" value="71" data-setting="lighting.elevation"></label>
+    <label><span>Environment <output>1.85</output></span><input type="range" min="0" max="2.5" step="0.05" value="1.85" data-setting="lighting.ambient"></label>
+    <label><span>Side accent · left <output>3.65</output></span><input type="range" min="0" max="5" step="0.05" value="3.65" data-setting="fill.power"></label>
+    <label><span>Side accent · right <output>1.55</output></span><input type="range" min="0" max="5" step="0.05" value="1.55" data-setting="rim.power"></label>
+    <label><span>Exposure <output>0.66</output></span><input type="range" min="0.4" max="1.4" step="0.01" value="0.66" data-setting="lighting.exposure"></label>
+    <label class="studio-color"><span>Key colour</span><input type="color" value="#ffffff" data-setting="lighting.color"></label>
+    <label class="studio-color"><span>Left accent colour</span><input type="color" value="#ffcb8f" data-setting="fill.color"></label>
+    <label class="studio-color"><span>Right accent colour</span><input type="color" value="#ffcb8f" data-setting="rim.color"></label>
+   </div>
+   <div class="pouch-studio-group"><h2>SHADE</h2>
+    <label><span>Roughness <output>0.50</output></span><input type="range" min="0.05" max="1" step="0.01" value="0.5" data-setting="finish.roughness"></label>
+    <label><span>Satin coat <output>0.350</output></span><input type="range" min="0" max="0.35" step="0.005" value="0.35" data-setting="finish.coat"></label>
+    <label><span>Surface grain <output>0.120</output></span><input type="range" min="0" max="0.12" step="0.002" value="0.12" data-setting="finish.grain"></label>
+   </div>
+   <footer class="pouch-studio-actions"><button type="button" data-studio-reset>Reset</button><button type="button" data-studio-copy>Copy settings</button></footer>
+   <p class="pouch-studio-note" aria-live="polite">Changes are local to this preview.</p>
+  </section>`;
+ document.body.append(host);
+ const trigger=host.querySelector('.pouch-studio-trigger');
+ const panel=host.querySelector('.pouch-studio-panel');
+ const note=host.querySelector('.pouch-studio-note');
+ const apply=(input)=>{
+  const [group,key]=input.dataset.setting.split('.');
+  const numeric=input.type==='range';
+  const value=numeric?Number(input.value):input.value;
+  if(group==='lighting'){
+   settings.lighting[key]=value;activeViewer.setLighting({[key]:value});
+  }else if(group==='finish'){
+   settings.finish[key]=value;activeViewer.setFinish({[key]:value});
+  }else{
+   settings.lights[group][key]=value;activeViewer.setExtraLights({[group]:{...settings.lights[group]}});
+  }
+  const output=input.parentElement.querySelector('output');
+  if(output)output.value=value.toFixed(Number(input.step)<.01?3:Number(input.step)<1?2:1);
+ };
+ const inputs=[...panel.querySelectorAll('[data-setting]')];
+ inputs.forEach(input=>{input.addEventListener('input',()=>apply(input));if(input.type==='range'){const out=input.parentElement.querySelector('output');if(out)out.value=Number(input.value).toFixed(Number(input.step)<.01?3:Number(input.step)<1?2:1);}});
+ trigger.addEventListener('click',()=>{const open=panel.hidden;panel.hidden=!open;trigger.setAttribute('aria-expanded',String(open));if(open)panel.querySelector('input')?.focus({preventScroll:true});});
+ panel.querySelector('.pouch-studio-close').addEventListener('click',()=>{panel.hidden=true;trigger.setAttribute('aria-expanded','false');trigger.focus();});
+ panel.querySelector('[data-studio-reset]').addEventListener('click',()=>{
+  Object.assign(settings.lighting,defaults.lighting);Object.assign(settings.finish,defaults.finish);
+  Object.assign(settings.lights.fill,defaults.lights.fill);Object.assign(settings.lights.rim,defaults.lights.rim);
+  inputs.forEach(input=>{const [group,key]=input.dataset.setting.split('.');const value=group==='lighting'?settings.lighting[key]:group==='finish'?settings.finish[key]:settings.lights[group][key];input.value=value;apply(input);});
+  note.textContent='Reset to the current pouch setup.';
+ });
+ panel.querySelector('[data-studio-copy]').addEventListener('click',async()=>{
+  const payload={lighting:settings.lighting,material:settings.finish,additionalLights:settings.lights};
+  try{await navigator.clipboard.writeText(JSON.stringify(payload,null,2));note.textContent='Settings copied. Paste them into the chat to keep this look.';}
+  catch{note.textContent=JSON.stringify(payload);}
+ });
+ panel.addEventListener('wheel',event=>event.stopPropagation(),{passive:true});
 }
