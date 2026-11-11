@@ -1,6 +1,6 @@
-import {mountOriginGallery} from './origin-gallery.js?v=large-gallery-20261111';
-import './studio-background.js?v=large-gallery-20261111';
-import {mountPouchViewer} from './product/viewer.js?v=large-gallery-20261111';
+import {mountOriginGallery} from './origin-gallery.js?v=gallery-drift-20261111';
+import './studio-background.js?v=gallery-drift-20261111';
+import {mountPouchViewer} from './product/viewer.js?v=gallery-drift-20261111';
 const reduce=false;document.body.classList.add('motion-enabled');
 const touchDevice=matchMedia('(pointer:coarse)').matches||navigator.maxTouchPoints>0;let interacting=false;
 const pouch=document.querySelector('#pouch');
