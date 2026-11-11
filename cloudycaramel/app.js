@@ -1,7 +1,6 @@
-import {mountTasteEyes} from './taste-eyes.js?v=taste-eyes-mobile-20261111';
-import {mountOriginGallery} from './origin-gallery.js?v=taste-eyes-mobile-20261111';
-import './studio-background.js?v=taste-eyes-mobile-20261111';
-import {mountPouchViewer} from './product/viewer.js?v=taste-eyes-mobile-20261111';
+import {mountOriginGallery} from './origin-gallery.js?v=taste-no-eyes-20261111';
+import './studio-background.js?v=taste-no-eyes-20261111';
+import {mountPouchViewer} from './product/viewer.js?v=taste-no-eyes-20261111';
 const reduce=false;document.body.classList.add('motion-enabled');
 const touchDevice=matchMedia('(pointer:coarse)').matches||navigator.maxTouchPoints>0;let interacting=false;
 const pouch=document.querySelector('#pouch');
@@ -12,7 +11,6 @@ const storyUnderlay=document.querySelector('.scroll-story');
 const hero=document.querySelector('.hero'),stage=document.querySelector('.hero-stage');
 const title=document.querySelector('h1'),caption=document.querySelector('.hero-caption');
 const tasteWindow=document.querySelector('.taste-window'),tasteScene=document.querySelector('.taste-scene'),tasteTrack=document.querySelector('.taste-track'),pageHeader=document.querySelector('header');
-const tasteEyes=mountTasteEyes(tasteWindow);
 const clamp=v=>Math.max(0,Math.min(1,v));
 const tasteColorStops=[[231,185,159],[241,229,162],[238,217,196],[189,145,107]];
 const tasteCream=[244,240,236];
@@ -58,7 +56,6 @@ function render(){
  const tasteProgressRaw=-tasteRect.top/Math.max(1,tasteScene.offsetHeight-tasteWindow.offsetHeight);
  const tasteProgress=clamp(tasteProgressRaw),tasteTrackProgress=clamp(tasteProgress/tasteTrackEnd);
  const tasteColor=colorAtTasteProgress(tasteProgressRaw);
- tasteEyes.update(tasteTrackProgress);
  tasteTrack.style.transform=`translate3d(${tasteStartOffset-tasteTravel*tasteTrackProgress}px,0,0)`;
  tasteWindow.style.backgroundColor=tasteColor;
  document.body.style.backgroundColor=tasteRect.top<innerHeight&&tasteRect.bottom>0&&tasteProgressRaw>=tasteEntryFadeStart&&tasteProgressRaw<=tasteExitFadeEnd?tasteColor:'';
