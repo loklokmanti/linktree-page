@@ -737,3 +737,6 @@ html,body{background-color:var(--studio-base,#f4f0ec)}
 .origin-carousel .origin-slide img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
 .origin-carousel .origin-gallery-controls{width:100%;padding:0 max(var(--pad),calc((100vw - min(86vw,1480px))/2 + clamp(20px,2.2vw,40px)));margin-top:18px}
 @media(max-width:700px){.origin-carousel .origin-rail{--gallery-height:clamp(220px,70vw,360px)}.origin-carousel .origin-gallery-controls{padding:0 var(--pad)}}
+
+/* Expanded basket stays above both grain and the fixed price bar. */
+dialog#order{z-index:9002!important}
