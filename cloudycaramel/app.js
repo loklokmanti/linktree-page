@@ -1,5 +1,6 @@
-import './studio-background.js?v=pouch-follow-align-20261111';
-import {mountPouchViewer} from './product/viewer.js?v=pouch-follow-align-20261111';
+import {mountOriginGallery} from './origin-gallery.js?v=large-gallery-20261111';
+import './studio-background.js?v=large-gallery-20261111';
+import {mountPouchViewer} from './product/viewer.js?v=large-gallery-20261111';
 const reduce=false;document.body.classList.add('motion-enabled');
 const touchDevice=matchMedia('(pointer:coarse)').matches||navigator.maxTouchPoints>0;let interacting=false;
 const pouch=document.querySelector('#pouch');
@@ -132,24 +133,7 @@ preorderOpensButton?.addEventListener('keydown',event=>{
 });
 preorderOpensButton?.addEventListener('animationend',()=>preorderOpensButton.classList.remove('is-tapped'));
 
-const originRail=document.querySelector('.origin-rail');
-const originSlides=[...originRail.querySelectorAll('.origin-slide')];
-const originPrev=document.querySelector('.origin-prev'),originNext=document.querySelector('.origin-next');
-let originIndex=0;
-function updateOriginGallery(){
- const step=originSlides[1].offsetLeft-originSlides[0].offsetLeft;
- originIndex=Math.max(0,Math.min(originSlides.length-1,Math.round(originRail.scrollLeft/step)));
- document.querySelector('.origin-count').textContent=`${originIndex+1} / ${originSlides.length}`;
- originPrev.disabled=originIndex===0;originNext.disabled=originIndex===originSlides.length-1;
-}
-function moveOrigin(direction){
- const next=Math.max(0,Math.min(originSlides.length-1,originIndex+direction));
- originRail.scrollTo({left:originSlides[next].offsetLeft-originSlides[0].offsetLeft,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});
-}
-originPrev.onclick=()=>moveOrigin(-1);originNext.onclick=()=>moveOrigin(1);
-originRail.addEventListener('scroll',updateOriginGallery,{passive:true});
-originRail.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();moveOrigin(e.key==='ArrowRight'?1:-1);}});
-addEventListener('resize',updateOriginGallery);
+mountOriginGallery();
 
 // Explicit CET offset makes this the same instant in every visitor's timezone.
 const preorderLaunch=Date.parse('2026-11-14T19:00:00+01:00');

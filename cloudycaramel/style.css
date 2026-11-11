@@ -728,3 +728,12 @@ html,body{background-color:var(--studio-base,#f4f0ec)}
 
 /* Taste copy follows the same desktop rail as Origin and Shipping. */
 @media(min-width:701px){body.motion-enabled .taste-copy{width:min(86vw,1480px)!important;padding-left:clamp(20px,2.2vw,40px);padding-right:clamp(20px,2.2vw,40px)}}
+
+/* Full-bleed drifting photo rail, with a compact 4px gap. */
+.origin-grid .origin-carousel{width:100vw;max-width:none;min-width:0;margin:42px 0 0 calc((100% - 100vw)/2)}
+.origin-carousel .origin-rail{--gallery-height:clamp(280px,38vw,540px);display:flex;flex-direction:row;align-items:flex-end;gap:4px;position:relative;height:calc(var(--gallery-height)*1.12);overflow-x:auto;overflow-y:hidden;scroll-snap-type:none;scroll-behavior:auto;overscroll-behavior-x:contain;touch-action:pan-y;cursor:grab;user-select:none;scrollbar-width:none}
+.origin-carousel .origin-rail.is-dragging{cursor:grabbing}
+.origin-carousel .origin-slide{flex:0 0 auto;width:auto;min-width:0;height:calc(var(--gallery-height)*var(--photo-height,1));aspect-ratio:var(--photo-ratio,4/3);margin:0;overflow:hidden;scroll-snap-align:none}
+.origin-carousel .origin-slide img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.origin-carousel .origin-gallery-controls{width:100%;padding:0 max(var(--pad),calc((100vw - min(86vw,1480px))/2 + clamp(20px,2.2vw,40px)));margin-top:18px}
+@media(max-width:700px){.origin-carousel .origin-rail{--gallery-height:clamp(220px,70vw,360px)}.origin-carousel .origin-gallery-controls{padding:0 var(--pad)}}
