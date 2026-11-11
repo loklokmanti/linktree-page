@@ -204,9 +204,9 @@ dialog#order[open].is-expanded>*{opacity:1;pointer-events:auto;transition:opacit
 @media(prefers-reduced-motion:reduce){dialog#order{transition:none}dialog#order[open]>*,dialog#order[open].is-expanded>*{transition:none}}
 
 /* Portrait cat photo interlude between the launch story and shipping. */
-.cat-photo-interlude{width:min(650px,calc(100% - 48px));margin:36px auto 96px}
-.cat-photo-interlude img{display:block;width:100%;height:auto;border-radius:2px}
-@media(max-width:700px){.cat-photo-interlude{width:calc(100% - 48px);margin:20px auto 72px}}
+.cat-photo-interlude{width:min(440px,calc(100% - 64px));margin:36px auto 96px}
+.cat-photo-interlude img,.cat-photo-interlude video{display:block;width:100%;height:auto;border-radius:24px}
+@media(max-width:700px){.cat-photo-interlude{width:min(440px,calc(100% - 64px));margin:20px auto 72px}}
 
 /* Keep background content fixed while either modal is open. */
 html.dialog-scroll-locked,body.dialog-scroll-locked{overflow:hidden!important;overscroll-behavior:none}
@@ -752,3 +752,61 @@ dialog#order{z-index:9002!important}
 /* Bring the Guji message slightly closer to the final pouch pose. */
 .scroll-story{margin-top:-80px}
 @media(max-width:700px){.scroll-story{margin-top:-68px}}
+
+/* Loose desktop collage; only the original single film is loaded on phones. */
+.cat-video-section{position:relative;width:100vw;height:max(820px,72vw);margin:24px calc(50% - 50vw) 56px;overflow:hidden;overflow:clip}
+.cat-video-card{position:absolute;margin:0;width:18%;}
+.cat-video-card video{display:block;width:100%;height:auto;border-radius:24px;background:#e7e0d8}
+.cat-video-mobile{display:none}
+.cat-video-1{left:30%;top:calc(6% + 80px);width:16%}
+.cat-video-2{right:-3%;top:calc(14% + 80px);width:19%}
+.cat-video-3{left:-3%;top:calc(8% + 80px);width:19%}
+.cat-video-4{left:44%;top:calc(30% + 80px);width:16%}
+.cat-video-5{left:10%;top:calc(30% + 80px);width:17%}
+.cat-video-6{right:8%;top:calc(33% + 80px);width:17%}
+.cat-video-7{left:auto;right:22%;top:calc(3% + 80px);width:15%}
+.cat-video-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:0;border-radius:40px;padding:14px 22px;background:#24231e;color:#fff;font:inherit;cursor:pointer;white-space:nowrap}
+.cat-video-play[hidden]{display:none}
+
+@media(max-width:700px){.cat-video-section{width:100%;height:auto;margin:12px auto 36px;overflow:visible}.cat-video-desktop{display:none}.cat-video-mobile{display:block;position:relative;width:min(440px,calc(100% - 64px));margin:0 auto}}
+
+.cat-video-socials{position:absolute;left:12px;right:12px;bottom:12px;display:flex;gap:8px;z-index:1}
+.cat-video-socials a{display:flex;align-items:center;justify-content:center;flex:1;height:36px;box-sizing:border-box;border:0;border-radius:18px;background:#080808;color:#fff;text-decoration:none;padding:0 0 3px;font:700 12px/1 Satoshi,Arial,sans-serif;white-space:nowrap}
+.cat-video-socials a:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+/* More breathing room between notes, with proportional scrolling distance. */
+body.motion-enabled .taste-window .taste-track{column-gap:28vw}
+body.motion-enabled .taste-scene{height:500svh!important}
+@media(min-width:701px){.cat-video-desktop video{border-radius:12px}}
+
+/* Narrow desktop paragraphs without moving their existing left rail. */
+@media(min-width:701px){
+ .story-copy,.origin-grid>div:first-child,.transparency .editorial,.shipping .editorial{width:80%;max-width:1080px;margin-left:0;margin-right:auto;text-align:left}
+ .taste-copy .lead{width:80%;max-width:1080px;margin-left:0;margin-right:auto;text-align:left}
+ .cat-video-section{margin-bottom:64px}
+}
+
+/* Stable image boxes and individual backing layers avoid WebKit's stale crop
+   when a transformed, formerly lazy image moves into the mobile viewport. */
+.origin-carousel .origin-slide{width:calc(var(--gallery-height)*var(--photo-height,1)*var(--photo-aspect,1.333333));flex-shrink:0;transform:translateZ(0);backface-visibility:hidden}
+.origin-carousel .origin-rail{-webkit-overflow-scrolling:auto}
+.origin-carousel .origin-slide img{max-width:none}
+
+/* Shared social links: below the mobile film, centered among desktop clips. */
+.cat-video-section>.cat-video-socials{left:50%;right:auto;top:50%;bottom:auto;width:280px;transform:translate(-50%,-50%)}
+.taste-copy .chapter-heading>span{margin-bottom:16px}
+@media(max-width:700px){.cat-video-section>.cat-video-socials{position:relative;inset:auto;width:min(440px,calc(100% - 64px));margin:12px auto 0;transform:none}}
+
+@media(max-width:700px){.cat-video-section{margin-bottom:112px}}
+
+/* Extra footage above and below each clipped desktop frame allows inner drift. */
+@media(min-width:701px){
+ .cat-video-desktop{aspect-ratio:9/16;overflow:hidden;border-radius:12px}
+ .cat-video-desktop video{position:absolute;left:0;top:-10%;width:100%;height:120%;object-fit:cover;border-radius:0;will-change:transform}
+}
+@media(prefers-reduced-motion:reduce){.cat-video-desktop video{will-change:auto}}
+
+@media(min-width:701px){
+ .cat-video-section{margin-top:clamp(96px,10vw,180px)}
+ .cat-video-section>.cat-video-socials{top:42%;transform:translate(-50%,-50%)}
+}

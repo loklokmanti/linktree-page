@@ -1,5 +1,5 @@
 import {createPouchBackdrop} from './pouch-backdrop.js?v=pouch-follow-align-20261111';
-import { fillFrostedPouch } from './frosted-pouch.js?v=pouch-follow-align-20261111';
+import { fillFrostedPouch } from './frosted-pouch.js?v=bean-reshuffle-9137-20261111';
 /**
  * @license
  * Copyright 2010-2024 Three.js Authors

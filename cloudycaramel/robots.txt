@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://cofbla.com/cloudycaramel/sitemap.xml

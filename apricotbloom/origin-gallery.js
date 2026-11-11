@@ -2,14 +2,14 @@ export function mountOriginGallery(){
  const rail=document.querySelector('.origin-rail');if(!rail)return;
  const originals=[...rail.querySelectorAll('.origin-slide')],track=document.createElement('div');track.className='origin-gallery-track';originals.forEach(slide=>track.append(slide));rail.append(track);
  const heights=[1,.73,1.12,.88,1.03];
- originals.forEach((slide,i)=>{const image=slide.querySelector('img');slide.style.setProperty('--photo-ratio',`${image.getAttribute('width')}/${image.getAttribute('height')}`);slide.style.setProperty('--photo-height',heights[i%heights.length]);image.draggable=false;});
+ originals.forEach((slide,i)=>{const image=slide.querySelector('img');const aspect=Number(image.getAttribute('width'))/Number(image.getAttribute('height'));slide.style.setProperty('--photo-ratio',String(aspect));slide.style.setProperty('--photo-aspect',String(aspect));slide.style.setProperty('--photo-height',heights[i%heights.length]);image.draggable=false;image.loading='eager';image.decoding='async';});
  rail.setAttribute('aria-label','Drag or use arrow keys to browse origin photos');
  let animation=null,cycle=0,start=0,duration=1,visible=false,drag=null;
  const modulo=(a,b)=>((a%b)+b)%b;
  const position=()=>start+(animation?modulo(Number(animation.currentTime)||0,duration)/duration*cycle:0);
  function setPosition(value){if(animation&&cycle)animation.currentTime=modulo(value-start,cycle)/cycle*duration;}
  function run(){if(!animation)return;if(visible&&!document.hidden&&!drag?.active)animation.play();else animation.pause();}
- function clone(slide){const copy=slide.cloneNode(true);copy.dataset.galleryClone='';copy.setAttribute('aria-hidden','true');copy.querySelector('img').alt='';return copy;}
+ function clone(slide){const copy=slide.cloneNode(true);copy.dataset.galleryClone='';copy.setAttribute('aria-hidden','true');const image=copy.querySelector('img');image.alt='';image.loading='eager';return copy;}
  function build(){
   const phase=animation?modulo(Number(animation.currentTime)||0,duration)/duration:0;animation?.cancel();
   track.querySelectorAll('[data-gallery-clone]').forEach(node=>node.remove());

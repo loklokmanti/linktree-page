@@ -1,3 +1,4 @@
+import {organicBeanStarts,organicBeanStartCount} from './organic-bean-starts.js?v=bean-reshuffle-9137-20261111';
 import {createPouchRigidBodies} from './pouch-rigid-bodies.js?v=random-start-20261111';
 import {beanDefaults} from './bean-tuner.js?v=random-start-20261111';
 import * as THREE from '../beans/vendor/three.module.js';
@@ -142,6 +143,18 @@ export async function fillFrostedPouch(viewer, bounds) {
   frame=requestAnimationFrame(animate);
  }
  function repack(){
+  // The approved 805-bean layout was relaxed offline with these same hulls.
+  // Reading it is cheaper than searching grid slots, and adds no frame work.
+  if(settings.beanSize===.8&&settings.collisionSpacing===1.3&&settings.startingSpacing===1&&settings.count<=organicBeanStartCount){
+   beans.length=0;
+   const count=Math.min(pool.length,Math.round(settings.count)),orientation=new THREE.Quaternion();
+   for(let i=0;i<count;i++){
+    const bean=pool[i],p=organicBeanStarts.subarray(i*7,i*7+7);
+    bean.position.set(p[0],p[1],p[2]);orientation.set(p[3],p[4],p[5],p[6]).normalize();
+    bean.rotation.setFromQuaternion(orientation);bean.scale=bean.baseScale*settings.beanSize;beans.push(bean);
+   }
+   mesh.count=count;physics.repack(beans);paint();return `Repacked ${count} beans.`;
+  }
   const positions=[];
   const spacing=Math.max(1,settings.startingSpacing)*settings.collisionSpacing*settings.beanSize;
   // Generate safe slots, then sample across the whole volume instead of filling bottom rows first.

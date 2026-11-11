@@ -1,6 +1,7 @@
-import {mountOriginGallery} from './origin-gallery.js?v=taste-no-eyes-20261111';
+import './cat-video.js?v=video-buttons-natural-20261111';
+import {mountOriginGallery} from './origin-gallery.js?v=video-buttons-natural-20261111';
 import './studio-background.js?v=taste-no-eyes-20261111';
-import {mountPouchViewer} from './product/viewer.js?v=taste-no-eyes-20261111';
+import {mountPouchViewer} from './product/viewer.js?v=bean-reshuffle-9137-20261111';
 const reduce=false;document.body.classList.add('motion-enabled');
 const touchDevice=matchMedia('(pointer:coarse)').matches||navigator.maxTouchPoints>0;let interacting=false;
 const pouch=document.querySelector('#pouch');
@@ -13,6 +14,7 @@ const title=document.querySelector('h1'),caption=document.querySelector('.hero-c
 const tasteWindow=document.querySelector('.taste-window'),tasteScene=document.querySelector('.taste-scene'),tasteTrack=document.querySelector('.taste-track'),pageHeader=document.querySelector('header');
 const clamp=v=>Math.max(0,Math.min(1,v));
 const tasteColorStops=[[231,185,159],[241,229,162],[238,217,196],[189,145,107]];
+let tasteStopPositions=[0,1/3,2/3,1];
 const tasteCream=[244,240,236];
 const tasteEntryFadeStart=-.05,tasteTrackEnd=.88,tasteExitFadeEnd=1.18;
 function colorAtTasteProgress(progress){
@@ -22,7 +24,10 @@ function colorAtTasteProgress(progress){
  if(progress<tasteEntryFadeStart){color=tasteCream;}
  else if(progress<0){color=mixColors(tasteCream,tasteColorStops[0],smoothstep((progress-tasteEntryFadeStart)/-tasteEntryFadeStart));}
  else if(progress<=tasteTrackEnd){
-  const scaled=(progress/tasteTrackEnd)*(tasteColorStops.length-1),index=Math.min(tasteColorStops.length-2,Math.floor(scaled)),mix=scaled-index;
+  const trackProgress=clamp(progress/tasteTrackEnd);
+  let index=0;
+  while(index<tasteColorStops.length-2&&trackProgress>tasteStopPositions[index+1])index++;
+  const mix=clamp((trackProgress-tasteStopPositions[index])/Math.max(.001,tasteStopPositions[index+1]-tasteStopPositions[index]));
   color=mixColors(tasteColorStops[index],tasteColorStops[index+1],mix);
  }else if(progress<=1){color=tasteColorStops[tasteColorStops.length-1];}
  else{color=mixColors(tasteColorStops[tasteColorStops.length-1],tasteCream,smoothstep((progress-1)/(tasteExitFadeEnd-1)));}
@@ -37,6 +42,8 @@ function measureScrollScenes(){
  tasteStartOffset=firstNote?(tasteWindow.clientWidth-firstNote.offsetWidth)/2-firstNote.offsetLeft:0;
  const tasteEndOffset=lastNote?tasteWindow.clientWidth/2-(lastNote.offsetLeft+lastNote.offsetWidth/2):tasteStartOffset;
  tasteTravel=Math.max(0,tasteStartOffset-tasteEndOffset);
+ const firstCenter=firstNote?firstNote.offsetLeft+firstNote.offsetWidth/2:0;
+ tasteStopPositions=[...tasteTrack.children].map(note=>clamp((note.offsetLeft+note.offsetWidth/2-firstCenter)/Math.max(1,tasteTravel)));
 }
 function queueRender(){if(!renderFrame)renderFrame=requestAnimationFrame(runRender)}
 function runRender(){renderFrame=0;if(render())renderFrame=requestAnimationFrame(runRender)}
