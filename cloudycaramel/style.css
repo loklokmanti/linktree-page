@@ -749,3 +749,6 @@ dialog#order{z-index:9002!important}
 /* Eyes stay above the current flavour while pupils morph with its scroll progress. */
 .taste-eyes{position:absolute;z-index:3;left:50%;top:calc(50% - clamp(150px,18vw,240px));transform:translateX(-50%);width:clamp(180px,22vw,300px);height:auto;overflow:visible;pointer-events:none}
 @media(max-width:700px){dialog#order .close:hover,dialog#order .close:active,dialog#order .close:focus,dialog#order .close:focus-visible{border:0!important;border-color:transparent!important;outline:0!important;box-shadow:none!important}}
+/* Bring the Guji message slightly closer to the final pouch pose. */
+.scroll-story{margin-top:-80px}
+@media(max-width:700px){.scroll-story{margin-top:-68px}}
