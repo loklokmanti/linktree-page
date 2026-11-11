@@ -1,5 +1,5 @@
-import './studio-background.js?v=random-start-20261111';
-import {mountPouchViewer} from './product/viewer.js?v=random-start-20261111';
+import './studio-background.js?v=pouch-follow-align-20261111';
+import {mountPouchViewer} from './product/viewer.js?v=pouch-follow-align-20261111';
 const reduce=false;document.body.classList.add('motion-enabled');
 const touchDevice=matchMedia('(pointer:coarse)').matches||navigator.maxTouchPoints>0;let interacting=false;
 const pouch=document.querySelector('#pouch');

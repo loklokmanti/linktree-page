@@ -725,3 +725,6 @@ html,body{background-color:var(--studio-base,#f4f0ec)}
 /* Small animated sign-off above the footer thanks. */
 .site-ending .footer-cat{position:relative;top:auto;width:100%;height:auto;margin:0 auto 24px;text-align:center}
 .site-ending .footer-cat .cat-illustration{display:block;width:96px;max-width:24vw;height:auto;margin:0 auto}
+
+/* Taste copy follows the same desktop rail as Origin and Shipping. */
+@media(min-width:701px){body.motion-enabled .taste-copy{width:min(86vw,1480px)!important;padding-left:clamp(20px,2.2vw,40px);padding-right:clamp(20px,2.2vw,40px)}}
