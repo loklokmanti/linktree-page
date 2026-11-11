@@ -740,3 +740,12 @@ html,body{background-color:var(--studio-base,#f4f0ec)}
 
 /* Expanded basket stays above both grain and the fixed price bar. */
 dialog#order{z-index:9002!important}
+
+/* Keep the basket close control clean on touch devices. */
+@media(max-width:700px){dialog#order .close{border:0!important;box-shadow:none!important;outline:0!important;-webkit-appearance:none;appearance:none}dialog#order .close:focus,dialog#order .close:focus-visible{outline:0!important}}
+/* The same drifting rail on mobile and desktop, animated on the compositor. */
+.origin-carousel .origin-rail{display:block;overflow:hidden;touch-action:pan-y}
+.origin-gallery-track{position:relative;display:flex;align-items:flex-end;gap:4px;height:100%;width:max-content;will-change:transform}
+/* Eyes stay above the current flavour while pupils morph with its scroll progress. */
+.taste-eyes{position:absolute;z-index:3;left:50%;top:calc(50% - clamp(150px,18vw,240px));transform:translateX(-50%);width:clamp(180px,22vw,300px);height:auto;overflow:visible;pointer-events:none}
+@media(max-width:700px){dialog#order .close:hover,dialog#order .close:active,dialog#order .close:focus,dialog#order .close:focus-visible{border:0!important;border-color:transparent!important;outline:0!important;box-shadow:none!important}}
