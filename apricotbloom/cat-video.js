@@ -22,6 +22,8 @@ const states = [...document.querySelectorAll('.cat-video-card')].map(card => {
     });
   };
   const load = () => {
+    // Hidden desktop cards must not download posters on phones.
+    if(active() && state.near && video.dataset.poster && !video.hasAttribute('poster'))video.poster=video.dataset.poster;
     if (active() && (mobile.matches || state.near) && !video.getAttribute('src')) {
       video.preload = 'auto';
       video.src = video.dataset.src;

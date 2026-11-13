@@ -1,5 +1,5 @@
 import {createPouchBackdrop} from './pouch-backdrop.js?v=pouch-follow-align-20261111';
-import { fillFrostedPouch } from './frosted-pouch.js?v=bean-reshuffle-9137-20261111';
+import { fillFrostedPouch } from './frosted-pouch.js?v=offscreen-idle-20261112';
 /**
  * @license
  * Copyright 2010-2024 Three.js Authors
@@ -4335,7 +4335,7 @@ const pivotCenter=[(minX+maxX)/2,(minY+maxY)/2,(minZ+maxZ)/2];
 const beanMotion=await fillFrostedPouch(n, {minX,maxX,minY,maxY,minZ,maxZ});
 const pageFrost=createPouchBackdrop(n);
 const originalInvalidate=n.invalidate.bind(n);
-n.invalidate=()=>{pageFrost.update();originalInvalidate();};
+n.invalidate=()=>{if(n.suspended)return;pageFrost.update();originalInvalidate();};
 function setPouchRotation(pitch,yaw){
  n.model.rotation.set(pitch,yaw,0,'XYZ');
  const q=n.model.quaternion,cx=pivotCenter[0],cy=pivotCenter[1],cz=pivotCenter[2];
@@ -4406,7 +4406,31 @@ function onRubberPointerMove(event){
 canvas.addEventListener('pointerdown',onRubberPointerDown,{passive:false});
 canvas.addEventListener('pointermove',onRubberPointerMove,{passive:false});
 canvas.addEventListener('pointerup',releaseRubberPointer);canvas.addEventListener('pointercancel',releaseRubberPointer);canvas.addEventListener('lostpointercapture',releaseRubberPointer);
+// Gate work at the viewer boundary; the renderer, lighting and materials stay untouched.
+const initialRect=canvas.getBoundingClientRect();
+let nearViewport=initialRect.bottom>=-100&&initialRect.top<=innerHeight+100,activityDisposed=false;
+function setActive(value){
+ const active=!!value&&!activityDisposed;
+ if(active===!n.suspended)return;
+ n.suspended=!active;
+ beanMotion.setActive(active);
+ if(!active){
+  if(n.pending)cancelAnimationFrame(n.pending);n.pending=0;
+  if(springFrame)cancelAnimationFrame(springFrame);springFrame=0;springTime=0;
+  dragging=false;rubberRecognized=false;
+  const pointerId=canvas._rubberPointerId;canvas._rubberPointerId=null;
+  if(pointerId!==null&&pointerId!==undefined)try{canvas.releasePointerCapture(pointerId)}catch{}
+ }else{
+  if(dragYaw||dragPitch||springYawVelocity||springPitchVelocity)springFrame=requestAnimationFrame(springBack);
+  n.invalidate();
+ }
+}
+const syncActivity=()=>setActive(nearViewport&&!document.hidden);
+const activityObserver=new IntersectionObserver(entries=>{nearViewport=entries[0].isIntersecting;syncActivity();},{rootMargin:'100px'});
+activityObserver.observe(canvas);
+document.addEventListener('visibilitychange',syncActivity);
+syncActivity();
 applyScrollPose(0);
 // Reveal only after the final transparent composition has rendered.
-await new Promise(resolve=>requestAnimationFrame(()=>{n.composer.render();e.style.visibility="visible";resolve();}));
-return{resetView(){applyScrollPose(0)},setMouseInfluence(x,y){mouseYaw=Math.max(-1,Math.min(1,x))*.05;mousePitch=-Math.max(-1,Math.min(1,y))*.032;paintRubberPose()},setInteraction(enabled){rubberEnabled=enabled;n.controls.enabled=false;canvas.style.pointerEvents=enabled?'auto':'none';canvas.style.touchAction='pan-y';if(!enabled&&dragging)releaseRubberPointer({pointerId:canvas._rubberPointerId});},setScrollProgress:applyScrollPose,setLighting:settings=>n.setLighting(settings),setFinish:settings=>n.setFinish(settings),setExtraLights:settings=>n.setExtraLights(settings),dispose(){n.invalidate=originalInvalidate;pageFrost.dispose();beanMotion.dispose();stopRubberSpring();canvas.removeEventListener('pointerdown',onRubberPointerDown);canvas.removeEventListener('pointermove',onRubberPointerMove);canvas.removeEventListener('pointerup',releaseRubberPointer);canvas.removeEventListener('pointercancel',releaseRubberPointer);canvas.removeEventListener('lostpointercapture',releaseRubberPointer);n.dispose(),e.remove()}}}var el=class extends HTMLElement{connectedCallback(){if(this._mounted)return;this._mounted=!0;let t=this._token=(this._token||0)+1;this.shadowRoot||this.attachShadow({mode:"open"}),this.shadowRoot.innerHTML='<style>:host{display:block;height:500px;min-height:240px}.view{width:100%;height:100%}.error{font:14px system-ui;padding:20px}</style><div class="view"></div>',_g(this.shadowRoot.querySelector(".view"),{interactive:!this.hasAttribute("static"),modelURL:this.getAttribute("src")||void 0}).then(e=>{!this.isConnected||t!==this._token?e.dispose():this._view=e}).catch(e=>{this.shadowRoot.innerHTML='<p class="error">The product preview could not load.</p>',console.error(e)})}disconnectedCallback(){this._mounted=!1,this._token=(this._token||0)+1,this._view?.dispose(),this._view=null}};customElements.get("coffee-pouch-viewer")||customElements.define("coffee-pouch-viewer",el);export{_g as mountPouchViewer};
+await new Promise(resolve=>requestAnimationFrame(()=>{if(!n.suspended)n.composer.render();e.style.visibility="visible";resolve();}));
+return{setActive,isActive:()=>!n.suspended,getActivityState:()=>({active:!n.suspended,renderFrame:n.renderer.info.render.frame,renderQueued:!!n.pending,physics:beanMotion.getActivityState()}),getPhysicsState:beanMotion.getPhysicsState,resetView(){applyScrollPose(0)},setMouseInfluence(x,y){mouseYaw=Math.max(-1,Math.min(1,x))*.05;mousePitch=-Math.max(-1,Math.min(1,y))*.032;paintRubberPose()},setInteraction(enabled){rubberEnabled=enabled;n.controls.enabled=false;canvas.style.pointerEvents=enabled?'auto':'none';canvas.style.touchAction='pan-y';if(!enabled&&dragging)releaseRubberPointer({pointerId:canvas._rubberPointerId});},setScrollProgress:applyScrollPose,setLighting:settings=>n.setLighting(settings),setFinish:settings=>n.setFinish(settings),setExtraLights:settings=>n.setExtraLights(settings),dispose(){setActive(false);activityDisposed=true;activityObserver.disconnect();document.removeEventListener('visibilitychange',syncActivity);n.invalidate=originalInvalidate;pageFrost.dispose();beanMotion.dispose();stopRubberSpring();canvas.removeEventListener('pointerdown',onRubberPointerDown);canvas.removeEventListener('pointermove',onRubberPointerMove);canvas.removeEventListener('pointerup',releaseRubberPointer);canvas.removeEventListener('pointercancel',releaseRubberPointer);canvas.removeEventListener('lostpointercapture',releaseRubberPointer);n.dispose(),e.remove()}}}var el=class extends HTMLElement{connectedCallback(){if(this._mounted)return;this._mounted=!0;let t=this._token=(this._token||0)+1;this.shadowRoot||this.attachShadow({mode:"open"}),this.shadowRoot.innerHTML='<style>:host{display:block;height:500px;min-height:240px}.view{width:100%;height:100%}.error{font:14px system-ui;padding:20px}</style><div class="view"></div>',_g(this.shadowRoot.querySelector(".view"),{interactive:!this.hasAttribute("static"),modelURL:this.getAttribute("src")||void 0}).then(e=>{!this.isConnected||t!==this._token?e.dispose():this._view=e}).catch(e=>{this.shadowRoot.innerHTML='<p class="error">The product preview could not load.</p>',console.error(e)})}disconnectedCallback(){this._mounted=!1,this._token=(this._token||0)+1,this._view?.dispose(),this._view=null}};customElements.get("coffee-pouch-viewer")||customElements.define("coffee-pouch-viewer",el);export{_g as mountPouchViewer};

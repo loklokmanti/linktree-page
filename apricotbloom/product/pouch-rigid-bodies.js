@@ -121,7 +121,7 @@ export async function createPouchRigidBodies({model,geometry,bounds,surface,sett
   }
   return changed;
  }
- return {repack,step,scroll(delta){scrollImpulse+=delta*settings.motion;},
+ return {repack,step,synchronizeFrame(){model.updateMatrixWorld(true);oldMatrix.copy(model.matrixWorld);scrollImpulse=0;},scroll(delta){scrollImpulse+=delta*settings.motion;},
   state(){
    let maxPenetration=0;
    for(const {collider} of bodies)world.contactPairsWith(collider,other=>world.contactPair(collider,other,manifold=>{for(let i=0;i<manifold.numContacts();i++)maxPenetration=Math.max(maxPenetration,-manifold.contactDist(i));}));

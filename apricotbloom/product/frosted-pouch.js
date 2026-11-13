@@ -1,8 +1,8 @@
-import {organicBeanStarts,organicBeanStartCount} from './organic-bean-starts.js?v=bean-reshuffle-9137-20261111';
-import {createPouchRigidBodies} from './pouch-rigid-bodies.js?v=random-start-20261111';
-import {beanDefaults} from './bean-tuner.js?v=random-start-20261111';
+import {organicBeanStarts,organicBeanStartCount} from './organic-bean-starts.js?v=offscreen-idle-20261112';
+import {createPouchRigidBodies} from './pouch-rigid-bodies.js?v=offscreen-idle-20261112';
+import {beanDefaults} from './bean-tuner.js?v=offscreen-idle-20261112';
 import * as THREE from '../beans/vendor/three.module.js';
-import {createPouchBeanGeometry,createPouchBeanCollisionGeometry,pouchBeanReference} from './pouch-bean-geometry.js?v=random-start-20261111';
+import {createPouchBeanGeometry,createPouchBeanCollisionGeometry,pouchBeanReference} from './pouch-bean-geometry.js?v=offscreen-idle-20261112';
 
 // Lightweight pouch-only beans; the separate interaction retains its detail.
 export async function fillFrostedPouch(viewer, bounds) {
@@ -100,8 +100,9 @@ export async function fillFrostedPouch(viewer, bounds) {
  const physics=await createPouchRigidBodies({model:viewer.model,geometry:collisionGeometry,bounds,surface:{lo,hi,nx,ny,dx,dy},settings});
  const canvas=viewer.renderer.domElement,pointer=new THREE.Vector2(),ray=new THREE.Raycaster();
  const pointerLocal=new THREE.Vector3(),previousPointer=new THREE.Vector3(),pointerVelocity=new THREE.Vector3();
- let pointerActive=false,pointerReady=false,disposed=false,frame=0,lastTime=0,lastScroll=0,pointerDirty=false,accumulator=0;
+ let pointerActive=false,pointerReady=false,disposed=false,active=false,frame=0,lastTime=0,lastScroll=0,pointerDirty=false,accumulator=0;
  function move(event){
+  if(!active)return;
   const rect=canvas.getBoundingClientRect();
   pointerActive=event.clientX>=rect.left&&event.clientX<=rect.right&&event.clientY>=rect.top&&event.clientY<=rect.bottom;
   if(!pointerActive){pointerReady=false;return;}
@@ -110,8 +111,6 @@ export async function fillFrostedPouch(viewer, bounds) {
   pointer.set(x,y);
  }
  document.addEventListener('pointermove',move,{passive:true});
- const observer=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;},{rootMargin:'100px'});
- let visible=true;observer.observe(canvas);
  function step(dt){
   let interaction=null;
   if(pointerActive&&pointerDirty){
@@ -133,14 +132,28 @@ export async function fillFrostedPouch(viewer, bounds) {
   beans.forEach((bean,index)=>{if(!force&&!bean.dirty)return;bean.dirty=false;changed=true;dummy.position.copy(bean.position);dummy.rotation.copy(bean.rotation);dummy.scale.setScalar(bean.scale);dummy.updateMatrix();mesh.setMatrixAt(index,dummy.matrix);});
   if(changed){mesh.instanceMatrix.needsUpdate=true;viewer.invalidate();}
  }
+ function setActive(value){
+  const next=!!value&&!disposed;
+  if(active===next)return;
+  active=next;
+  if(frame)cancelAnimationFrame(frame);
+  frame=0;lastTime=0;accumulator=0;
+  pointerActive=pointerReady=pointerDirty=false;
+  // Keep body transforms, velocities and sleep states. Drop only stale
+  // pointer/pouch impulses and elapsed time from the offscreen interval.
+  physics.synchronizeFrame();
+  if(active)frame=requestAnimationFrame(animate);
+ }
  function animate(now){
-  if(disposed)return;const dt=Math.min((now-(lastTime||now))/1000,.025);lastTime=now;
-  if(visible&&!document.hidden&&dt>0){
+  frame=0;
+  if(disposed||!active)return;
+  const dt=lastTime?Math.min((now-lastTime)/1000,.025):0;lastTime=now;
+  if(dt>0){
    accumulator=Math.min(accumulator+dt,1/30);let changed=false;
    while(accumulator>=1/60){changed=step(1/60)||changed;accumulator-=1/60;}
    if(changed)paint(false);
-  }else accumulator=0;
-  frame=requestAnimationFrame(animate);
+  }
+  if(active)frame=requestAnimationFrame(animate);
  }
  function repack(){
   // The approved 805-bean layout was relaxed offline with these same hulls.
@@ -205,7 +218,7 @@ export async function fillFrostedPouch(viewer, bounds) {
  }
  applyVisibility();
  repack();
- paint();frame=requestAnimationFrame(animate);
+ paint();setActive(true);
  viewer.model.traverse(part=>{
   if(!part.isMesh||part===mesh)return;
   const name=part.name.toLowerCase();
@@ -232,7 +245,8 @@ export async function fillFrostedPouch(viewer, bounds) {
  viewer.setFresnel({strength:.15,power:2,color:'#fff4e5'});
  viewer.invalidate();
  return {
-  scroll(progress){physics.scroll(THREE.MathUtils.clamp(progress-lastScroll,-.06,.06)*5);lastScroll=progress;},getPhysicsState:()=>physics.state(),
-  dispose(){physics.dispose();collisionGeometry.dispose();disposed=true;cancelAnimationFrame(frame);observer.disconnect();document.removeEventListener('pointermove',move);mesh.dispose();}
+  setActive,getActivityState:()=>({active,frameQueued:!!frame}),
+  scroll(progress){if(active)physics.scroll(THREE.MathUtils.clamp(progress-lastScroll,-.06,.06)*5);lastScroll=progress;},getPhysicsState:()=>physics.state(),
+  dispose(){physics.dispose();collisionGeometry.dispose();disposed=true;cancelAnimationFrame(frame);document.removeEventListener('pointermove',move);mesh.dispose();}
  };
 }

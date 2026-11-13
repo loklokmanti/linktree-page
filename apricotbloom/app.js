@@ -1,7 +1,8 @@
-import './cat-video.js?v=video-buttons-natural-20261111';
+import './basket-images.js?v=release-equal-type-20261112';
+import './cat-video.js?v=offscreen-idle-20261112';
 import {mountOriginGallery} from './origin-gallery.js?v=video-buttons-natural-20261111';
 import './studio-background.js?v=taste-no-eyes-20261111';
-import {mountPouchViewer} from './product/viewer.js?v=bean-reshuffle-9137-20261111';
+import {mountPouchViewer} from './product/viewer.js?v=offscreen-idle-20261112';
 const reduce=false;document.body.classList.add('motion-enabled');
 const touchDevice=matchMedia('(pointer:coarse)').matches||navigator.maxTouchPoints>0;let interacting=false;
 const pouch=document.querySelector('#pouch');
@@ -34,10 +35,11 @@ function colorAtTasteProgress(progress){
  // Use legacy comma syntax for broad Safari/iOS compatibility.
  return `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
 }
-let current=0,lastProgress=-1,renderFrame=0,heroPinDistance=1,tasteTravel=0,tasteStartOffset=0;
+let current=0,lastProgress=-1,renderFrame=0,heroPinDistance=1,tasteTravel=0,tasteStartOffset=0,tasteRunway=1,lastRenderTime=0;
 function measureScrollScenes(){
  const stageTop=parseFloat(getComputedStyle(stage).top)||0;
  heroPinDistance=Math.max(1,hero.offsetHeight-stage.offsetHeight-stageTop);
+ tasteRunway=Math.max(1,tasteScene.offsetHeight-tasteWindow.offsetHeight);
  const firstNote=tasteTrack.firstElementChild,lastNote=tasteTrack.lastElementChild;
  tasteStartOffset=firstNote?(tasteWindow.clientWidth-firstNote.offsetWidth)/2-firstNote.offsetLeft:0;
  const tasteEndOffset=lastNote?tasteWindow.clientWidth/2-(lastNote.offsetLeft+lastNote.offsetWidth/2):tasteStartOffset;
@@ -46,13 +48,16 @@ function measureScrollScenes(){
  tasteStopPositions=[...tasteTrack.children].map(note=>clamp((note.offsetLeft+note.offsetWidth/2-firstCenter)/Math.max(1,tasteTravel)));
 }
 function queueRender(){if(!renderFrame)renderFrame=requestAnimationFrame(runRender)}
-function runRender(){renderFrame=0;if(render())renderFrame=requestAnimationFrame(runRender)}
+function runRender(){renderFrame=0;if(render())renderFrame=requestAnimationFrame(runRender);else lastRenderTime=0}
 function render(){
  const rect=hero.getBoundingClientRect();
  const sceneProgress=clamp(-rect.top/heroPinDistance);
  // Finish before the pin releases, leaving a still final composition.
  const target=clamp(sceneProgress/.78);
- current+=.14*(target-current);
+ // The same easing duration at 30, 60 and 120 Hz (including Low Power Mode).
+ const now=performance.now(),dt=lastRenderTime?Math.min(64,now-lastRenderTime):1000/60;
+ lastRenderTime=now;
+ current+=(1-Math.pow(.86,dt/(1000/60)))*(target-current);
  if(Math.abs(target-current)<.0001||sceneProgress>=.88)current=target;
  if(viewer&&!interacting&&Math.abs(current-lastProgress)>.00001){viewer.setScrollProgress(current);lastProgress=current;}
  title.style.transform=`translateY(${-Math.max(0,-rect.top)}px)`;
@@ -60,7 +65,7 @@ function render(){
  const tasteRect=tasteScene.getBoundingClientRect();
  // Native page scroll moves the notes across a sticky full-screen panel, then
  // releases the panel at the end of its scroll runway.
- const tasteProgressRaw=-tasteRect.top/Math.max(1,tasteScene.offsetHeight-tasteWindow.offsetHeight);
+ const tasteProgressRaw=-tasteRect.top/tasteRunway;
  const tasteProgress=clamp(tasteProgressRaw),tasteTrackProgress=clamp(tasteProgress/tasteTrackEnd);
  const tasteColor=colorAtTasteProgress(tasteProgressRaw);
  tasteTrack.style.transform=`translate3d(${tasteStartOffset-tasteTravel*tasteTrackProgress}px,0,0)`;
@@ -71,21 +76,22 @@ function render(){
 }
 measureScrollScenes();queueRender();
 addEventListener('scroll',queueRender,{passive:true});
-addEventListener('resize',()=>{lastProgress=-1;measureScrollScenes();queueRender()},{passive:true});
+// Height-only mobile toolbar events do not reset the pouch camera.
+addEventListener('cofbla:layoutresize',()=>{lastProgress=-1;measureScrollScenes();queueRender()},{passive:true});
 if('ResizeObserver'in window){const sceneObserver=new ResizeObserver(()=>{measureScrollScenes();queueRender()});sceneObserver.observe(hero);sceneObserver.observe(stage)}
 if(document.fonts?.ready)document.fonts.ready.then(()=>{measureScrollScenes();queueRender()});
 // A restrained desktop-only mouse look gives the pouch a little presence without replacing its scroll motion.
 let mouseAimX=0,mouseAimY=0,mouseCurrentX=0,mouseCurrentY=0,mouseAimFrame=0;
 function easePouchMouseAim(){
  mouseAimFrame=0;
- if(!viewer||touchDevice||innerWidth<701)return;
+ if(!viewer||!viewer.isActive()||touchDevice||innerWidth<701)return;
  mouseCurrentX+=(mouseAimX-mouseCurrentX)*.12;
  mouseCurrentY+=(mouseAimY-mouseCurrentY)*.12;
  viewer.setMouseInfluence(mouseCurrentX,mouseCurrentY);
  if(Math.abs(mouseAimX-mouseCurrentX)>.001||Math.abs(mouseAimY-mouseCurrentY)>.001)mouseAimFrame=requestAnimationFrame(easePouchMouseAim);
 }
 addEventListener('pointermove',event=>{
- if(touchDevice||innerWidth<701||event.pointerType!=='mouse')return;
+ if(touchDevice||innerWidth<701||event.pointerType!=='mouse'||!viewer?.isActive())return;
  mouseAimX=(event.clientX-innerWidth/2)/(innerWidth/2);
  mouseAimY=(event.clientY-innerHeight/2)/(innerHeight/2);
  if(!mouseAimFrame)mouseAimFrame=requestAnimationFrame(easePouchMouseAim);

@@ -567,7 +567,7 @@ dialog#order .close:focus-visible,dialog#legal-policy .legal-policy-close:focus-
   .story-copy{width:100%;max-width:none;margin:0;text-align:left}
   .story>.signature{align-self:center;text-align:center}
   .chapter-heading,.chapter-heading h2{text-align:left}
-  main{--body-copy-size:clamp(36px,3.25vw,56px)}
+  main{--body-copy-size:clamp(32.4px,2.925vw,50.4px)}
   .story-copy,.lead,.origin-grid>div:first-child,.transparency .editorial,.shipping .editorial{
     width:100%;max-width:none;
   }
@@ -578,7 +578,7 @@ dialog#order .close:focus-visible,dialog#legal-policy .legal-policy-close:focus-
   .timeline{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,4vw,64px);margin:48px 0 40px}
   .timeline article{min-width:0;padding:30px 0;gap:24px}
   .timeline article>strong{font-size:clamp(56px,7vw,72px);line-height:.78}
-  .transparency .timeline p{font-size:clamp(24px,1.9vw,32px)!important;line-height:1.38}
+  .transparency .timeline p{font-size:clamp(21.6px,1.71vw,28.8px)!important;line-height:1.38}
   .site-ending{margin-top:clamp(100px,9vw,160px);padding-top:clamp(30px,4vw,64px);padding-bottom:clamp(30px,4vw,64px)}
   main .closing-thanks{width:100%;max-width:1050px;margin:0 auto 54px;font-size:clamp(48px,5.2vw,88px);line-height:.82;text-wrap:balance}
   .footer-meta{margin-top:120px}
@@ -810,3 +810,112 @@ body.motion-enabled .taste-scene{height:500svh!important}
  .cat-video-section{margin-top:clamp(96px,10vw,180px)}
  .cat-video-section>.cat-video-socials{top:42%;transform:translate(-50%,-50%)}
 }
+
+/* Stationary eyebrow inside the pinned taste panel, independent of its track. */
+.taste-flavours{position:absolute;z-index:2;left:50%;top:calc(50% - clamp(80px,8vw,150px));transform:translateX(-50%);font:400 12px/1.2 Satoshi,Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;text-align:center;white-space:nowrap}
+@media(max-width:700px){.taste-flavours{top:calc(50% - 76px)}}
+dialog#order .first-drop-free{text-align:right;max-width:110px}
+dialog#order .first-drop-free small{display:block;font:400 10px/1.2 Satoshi,Arial,sans-serif;margin-bottom:3px}
+dialog#order .basket-image-preview{display:block;position:relative;z-index:1;width:56px;height:60px;padding:0;border:0;border-radius:0;background:transparent;cursor:zoom-in}
+dialog#order .basket-image-preview img{display:block;object-fit:contain}
+#basket-image-viewer{position:fixed;inset:0;width:min(760px,calc(100vw - 32px));height:auto;max-height:calc(100svh - 32px);margin:auto;padding:52px 20px 20px;border:0;border-radius:24px;background:#f4f0ec;color:#24231e;z-index:9010;overflow:auto}
+#basket-image-viewer::backdrop{background:rgba(20,18,16,.72)}
+#basket-image-viewer figure{margin:0;text-align:center}
+#basket-image-viewer img{display:block;width:auto;height:auto;max-width:100%;max-height:calc(100svh - 150px);object-fit:contain;margin:0 auto}
+#basket-image-viewer figcaption{margin-top:12px;font:400 14px/1.3 Satoshi,Arial,sans-serif}
+.basket-image-close{position:absolute;right:18px;top:16px;border:0;box-shadow:none;border-radius:0;padding:4px;background:transparent;color:inherit;font:700 14px/1.2 Satoshi,Arial,sans-serif}
+html:has(#basket-image-viewer[open]),body:has(#basket-image-viewer[open]){overflow:hidden!important}
+
+/* Keep the image viewer independent of the basket's generic dialog styles. */
+dialog#basket-image-viewer{height:fit-content;max-width:calc(100vw - 32px)}
+#basket-image-viewer>.basket-image-close{min-height:0;padding:4px;border:0;border-radius:0;background:transparent;color:inherit}
+
+/* Show the picture itself, without a surrounding card or caption. */
+dialog#basket-image-viewer{width:fit-content;height:fit-content;max-width:calc(100vw - 32px);max-height:none;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:visible}
+#basket-image-viewer img{max-width:min(720px,calc(100vw - 72px));max-height:calc(100svh - 150px);border-radius:24px}
+#basket-image-viewer>.basket-image-close{position:absolute;top:-17px;right:12px;z-index:5;min-height:0;padding:10px 17px;border:1px solid rgba(36,35,30,.08);border-radius:999px;background:#fff;color:#24231e;-webkit-text-fill-color:#24231e;box-shadow:0 3px 12px rgba(36,35,30,.08);font:12px Satoshi,Arial,sans-serif;white-space:nowrap;appearance:none;-webkit-appearance:none}
+#basket-image-viewer>.basket-image-close:hover,#basket-image-viewer>.basket-image-close:active,#basket-image-viewer>.basket-image-close:focus{background:#fff;color:#24231e}
+@media(max-width:700px){#basket-image-viewer>.basket-image-close,#basket-image-viewer>.basket-image-close:focus-visible{border:0!important;outline:0!important;box-shadow:none!important}}
+
+/* Keep FREE on the product-name baseline; its note sits directly underneath. */
+dialog#order .first-drop-free{position:relative;white-space:nowrap;max-width:none}
+dialog#order .first-drop-free small{position:absolute;top:100%;right:0;display:block;margin:3px 0 0;font:400 12px/1.35 Satoshi,Arial,sans-serif;opacity:.72;white-space:nowrap}
+/* The image button must carry the cream tile so multiply blends against it. */
+dialog#order .basket-products .cart-line:first-child::before{content:none}
+dialog#order .basket-products .cart-line:first-child .basket-image-preview{background:#f3f0eb}
+.preorder .order-summary img{width:56px!important;height:60px!important;flex:0 0 56px;object-fit:contain!important}
+
+/* Align the amount's first baseline with Subtotal, before the shipping note. */
+dialog#order .total{align-items:baseline}
+dialog#order .basket-details>.total+p{margin-top:18px}
+@media(max-width:700px){
+ dialog#order:focus,dialog#order:focus-visible,dialog#order .basket-image-preview:focus,dialog#order .basket-image-preview:focus-visible{outline:0!important;outline-offset:0!important;-webkit-tap-highlight-color:transparent}
+}
+
+/* A compact, readable first-drop note with a warm apricot accent. */
+dialog#order .first-drop-free{line-height:1.2}
+dialog#order .first-drop-free small{margin-top:0;line-height:1.1;color:#287044;opacity:1;font-weight:700}
+dialog#order h2{margin-top:16px!important}
+
+dialog#order .basket-scroll>h2#order-title{margin-top:16px!important}
+
+/* One continuous info paragraph above the final countdown button. */
+dialog#order .first-drop-free small{font-weight:400}
+dialog#order .total{margin-top:24px}
+dialog#order .basket-action{order:3;margin-top:18px}
+
+/* Match the square gift tiles and the price-bar CTA's edge insets. */
+dialog#order .basket-products .cart-line:first-child .basket-image-preview{height:56px}
+dialog#order .basket-products .cart-line:first-child img{width:56px!important;height:56px!important;object-fit:cover!important}
+.preorder .order-summary img{height:56px!important}
+dialog#order .basket-action{width:calc(100% + 20px);margin:8px -10px 0}
+dialog#order .basket-action>.shopify-closed{width:100%!important;margin:0!important;min-height:54px}
+@media(max-width:700px){
+ dialog#order .basket-scroll{padding-bottom:14px}
+ dialog#order .basket-action{width:calc(100% + 8px);margin:8px -4px 0}
+ dialog#order .basket-action>.shopify-closed{min-height:49px!important}
+}
+
+/* Restore a little breathing room above the CTA and lift the heading size. */
+dialog#order .basket-action{margin-top:14px}
+dialog#order .basket-scroll>h2#order-title{font-size:clamp(24.2px,6.6vw,44px)}
+
+/* A countdown lead-in, followed by the seven- and fourteen-day release stages. */
+.release-timeline{margin:52px 0 40px}
+.release-bar{display:grid;grid-template-columns:1fr 2fr;gap:4px;align-items:start}
+.release-stage{min-width:0;color:#24231e}
+.release-block{position:relative;isolation:isolate;overflow:hidden;height:4px;background:#080908}
+.release-stage strong{display:block;margin:12px 8px 0 0;font:400 32px/18px Cactus,Arial,sans-serif;text-align:left}
+.release-fill{position:absolute;left:0;top:0;bottom:0;width:var(--release-fill,100%);overflow:hidden;pointer-events:none}
+.release-stripes{display:block;position:absolute;top:0;bottom:0;left:-32px;width:calc(100% + 64px);background:repeating-linear-gradient(135deg,rgba(255,255,255,.48) 0 6px,transparent 6px 16px);animation:release-stripes .5s linear infinite;will-change:transform;backface-visibility:hidden}
+@keyframes release-stripes{from{transform:translate3d(0,0,0)}to{transform:translate3d(-22.627417px,0,0)}}
+@media(prefers-reduced-motion:reduce){.release-stripes{animation-duration:2s}}
+.release-copy{margin:32px 0 0}
+@media(max-width:700px){
+ dialog#order .basket-scroll>h2#order-title{font-size:clamp(27px,7.2vw,32px)}
+ .release-timeline{margin:40px 0 32px}
+ .release-block{height:4px}
+}
+@media(max-width:700px){.cat-video-section{margin-top:76px}}
+
+
+
+
+
+/* Browser toolbar motion must not resize a pinned animation's scroll runway. */
+@media(max-width:700px){
+ body.motion-enabled .hero{height:calc(var(--scroll-vh,1svh) * 220)}
+ body.motion-enabled .hero-stage{height:calc(var(--scroll-vh,1svh) * 100 - var(--bar) - 60px)}
+ body.motion-enabled .taste-inner{gap:clamp(64px,calc(var(--scroll-vh,1svh) * 10),100px)}
+ body.motion-enabled .taste-scene{height:calc(var(--scroll-vh,1svh) * 500)!important}
+ body.motion-enabled .taste-window{height:calc(var(--scroll-vh,1svh) * 100);min-height:calc(var(--scroll-vh,1svh) * 100)}
+}
+
+
+.release-stage:not([aria-current="step"]) .release-fill{display:none}
+[data-release-countdown]{display:block;font:inherit;margin-top:5px}
+@media(max-width:700px){.release-stage strong{font-size:30px;line-height:20px}}
+
+@media(max-width:700px){.release-stage strong>span{white-space:nowrap}.release-label-line{display:block}}
+
+@media(min-width:701px){.release-copy{margin-top:52px}}
